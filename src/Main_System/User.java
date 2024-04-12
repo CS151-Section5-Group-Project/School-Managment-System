@@ -1,5 +1,5 @@
 package Main_System;
 
-public class Student {
-
+public class User {
+	
 }
