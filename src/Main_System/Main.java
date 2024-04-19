@@ -1,5 +1,8 @@
 package Main_System;
 
+import java.io.*;
+import java.util.*;
+
 public class Main {
 	public static void main(String[] args) {
 		System.out.println("Directory:\n1. Administrator\n2. Teacher\n3. Student");
