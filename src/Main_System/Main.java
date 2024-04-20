@@ -32,6 +32,7 @@ public class Main {
 					break;
 				} else {
 					System.out.println("\nWrong Password");
+					break;
 				}	
 			}
 		} else if (role == 2) {
@@ -56,6 +57,7 @@ public class Main {
 					break;
 				} else {
 					System.out.println("\nWrong Password");
+					break;
 				}	
 			}
 		} else if (role == 3) {
@@ -80,6 +82,7 @@ public class Main {
 					break;
 				} else {
 					System.out.println("\nWrong Password");
+					break;
 				}	
 			}
 		} else {
