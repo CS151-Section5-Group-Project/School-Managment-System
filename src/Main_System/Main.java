@@ -29,12 +29,36 @@ public class Main {
                 }
             }
             
-            if(currentUser instanceof Main_System.Administrator) {
-                System.out.println("Directory:\n1. Admin.Method1 \n2. Admin.Method2 \n3. Quit");
+             if(currentUser instanceof Main_System.Administrator) {
+                System.out.println("Directory:\n1. Admin Information \n2. Admin.Method2 \n3. Quit");
+                int command = scan.nextInt();
+                if (command == 1) {
+                	System.out.println(currentUser.toString());
+                } else if (command == 2) {
+                	System.out.println("Method 2");
+                } else {
+                	System.exit(0);
+                }
             } else if (currentUser instanceof Main_System.Teacher) {
-                System.out.println("Directory:\n1. Teach.Method1 \n2. Teach.Method2 \n3. Quit");
+                System.out.println("Directory:\n1. Teacher Information \n2. Teach.Method2 \n3. Quit");
+                int command = scan.nextInt();
+                if (command == 1) {
+                	System.out.println(currentUser.toString());
+                } else if (command == 2) {
+                	System.out.println("Method 2");
+                } else {
+                	System.exit(0);
+                }
             }else {
-                System.out.println("Directory:\n1. Stu.Method1 \n2. Stu.Method2 \n3. Quit");
+                System.out.println("Directory:\n1. Student Information \n2. Stu.Method2 \n3. Quit");
+                int command = scan.nextInt();
+                if (command == 1) {
+                	System.out.println(currentUser.toString());
+                } else if (command == 2) {
+                	System.out.println("Method 2");
+                } else {
+                	System.exit(0);
+                }
             }
         }
     }
