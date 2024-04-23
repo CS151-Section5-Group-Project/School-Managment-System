@@ -2,19 +2,21 @@ package Main_System;
 
 import java.time.LocalDate;
 
-public class Announcement {
+public class Post {
 	private String subject;
 	private String message;
 	private LocalDate createdAt;
+	private String type;
 	
-	public Announcement() {
+	public Post() {
 		
 	}
 	
-	public Announcement(String subject, String message) {
+	public Post(String subject, String message, String type) {
 		this.subject = subject;
 		this.message = message;
 		this.createdAt = LocalDate.now();
+		this.type = type;
 	}
 	
 	public String getSubject() {
@@ -29,12 +31,20 @@ public class Announcement {
 		return createdAt;
 	}
 	
+	public String getType() {
+		return type;
+	}
+	
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
 	
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	public String toString() {

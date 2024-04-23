@@ -1,10 +1,8 @@
 package Main_System;
 
-import java.util.*;
+import java.util.Scanner;
 
 public class Administrator extends User {
-	private ArrayList<Announcement> announcements;
-	
 	public enum Level {
 		I,II
 	}
@@ -16,7 +14,6 @@ public class Administrator extends User {
 	public Administrator(String last, String first, String user, String pass, int id, Level i) {
 		super(last, first, user, pass, id);
 		this.i = i;
-		announcements = new ArrayList<>();
 	}
 	public String levelNames() {
 		switch(i) {
@@ -35,13 +32,16 @@ public class Administrator extends User {
 		return super.toString() + "\nLevel: " + i;
 	}
 	
-	public void createAnnouncement(String subject, String message) {	
-		Announcement a = new Announcement(subject, message);
-		announcements.add(a);
-		System.out.println("Announcement Created:\n" + a.toString() + "\n");
-	}
-	
-	public ArrayList<Announcement> getAnnouncements() {
-		return announcements;
+	public void createPost() {	
+		Scanner scan = new Scanner(System.in);
+		System.out.println("SUBJECT:");
+		String subject = scan.nextLine();
+        System.out.println("MESSAGE:");
+        String message = scan.nextLine();
+        System.out.println("TYPE:");
+        String type = scan.nextLine();
+		Post a = new Post(subject, message, type);
+		getInbox().add(a);
+		System.out.println("Post Created:\n" + a.toString() + "\n");
 	}
 }

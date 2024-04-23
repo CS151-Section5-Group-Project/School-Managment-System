@@ -8,12 +8,15 @@ public abstract class User {
 	private String user_name;
 	private String password;
 	private int ID;
+	private ArrayList<Post> inbox;
+	
 	public User() {
 		last_name = " ";
 		first_name = " ";
 		user_name = " ";
 		password = " ";
 		ID = 0;
+		inbox = new ArrayList<Post>();
 	}
 	public User(String last, String first, String user, String pass, int Id) {
 		last_name = last;
@@ -21,6 +24,7 @@ public abstract class User {
 		user_name = user;
 		password = pass;
 		ID = Id;
+		inbox = new ArrayList<Post>();
 	}
 	public String getLastName() {
 		return last_name;
@@ -36,6 +40,9 @@ public abstract class User {
 	}
 	public int getID() {
 		return ID;
+	}
+	public ArrayList<Post> getInbox(){
+		return inbox;
 	}
 	public void setLastName(String last) {
 		last_name = last;
@@ -56,12 +63,12 @@ public abstract class User {
 		return "First Name: " + first_name + "\nLast Name: " + last_name + "\nID: " + ID;
 	}
 	
-	public void viewAnnouncements(ArrayList<Announcement> announcements) {
-		if (announcements.isEmpty()) {
-			System.out.println("No Announcments");
+	public void viewInbox() {
+		if (inbox.isEmpty()) {
+			System.out.println("No posts currently in inbox.");
 		}else {
-			for (Announcement a: announcements) {
-				System.out.println(a.toString() + "\n");
+			for (Post p: inbox) {
+				System.out.println(p.toString() + "\n");
 			}
 		}
 	}
