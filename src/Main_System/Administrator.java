@@ -35,14 +35,10 @@ public class Administrator extends User {
 		return super.toString() + "\nLevel: " + i;
 	}
 	
-	public void createAnnouncement(String subject, String message) {
-		//try(Scanner scan = new Scanner(System.in)){
-			
-			Announcement a = new Announcement(subject, message);
-			announcements.add(a);
-			System.out.println("Announcement Created:\n" + a.toString() + "\n");
-		//}
-		
+	public void createAnnouncement(String subject, String message) {	
+		Announcement a = new Announcement(subject, message);
+		announcements.add(a);
+		System.out.println("Announcement Created:\n" + a.toString() + "\n");
 	}
 	
 	public ArrayList<Announcement> getAnnouncements() {
