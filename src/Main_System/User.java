@@ -1,5 +1,7 @@
 package Main_System;
 
+import java.util.ArrayList;
+
 public abstract class User {
 	private String last_name;
 	private String first_name;
@@ -54,4 +56,13 @@ public abstract class User {
 		return "First Name: " + first_name + "\nLast Name: " + last_name + "\nID: " + ID;
 	}
 	
+	public void viewAnnouncements(ArrayList<Announcement> announcements) {
+		if (announcements.isEmpty()) {
+			System.out.println("No Announcments");
+		}else {
+			for (Announcement a: announcements) {
+				System.out.println(a.toString() + "\n");
+			}
+		}
+	}
 }
