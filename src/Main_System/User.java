@@ -72,4 +72,6 @@ public abstract class User {
 			}
 		}
 	}
+	
+	// abstract void createPost();
 }

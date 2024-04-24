@@ -14,8 +14,6 @@ public class Main {
         Administrator admin = new Administrator("Luong", "Brian", "flame", "123", 1, Administrator.Level.I);
         
         users.put("flame", admin);
-        //admin.createAnnouncement("IMPORTANT", "TEST");
-        //admin.createAnnouncement("IMPORTANT", "TEST2");
         
         User currentUser;
         
@@ -38,7 +36,7 @@ public class Main {
 	            while(true) {
 		            if(currentUser instanceof Main_System.Administrator) {
 		            	Administrator currentAdmin = (Administrator) currentUser;
-		                System.out.println("Directory:\n1. Admin Information \n2. Create Announcement \n"
+		                System.out.println("\nDirectory:\n1. Admin Information \n2. Create Announcement \n"
 		                		+ "3. View Inbox \n4. Logout \n5. Quit");
 		                int command = scan.nextInt();
 		                if (command == 1) {
@@ -53,7 +51,7 @@ public class Main {
 		                	System.exit(0);
 		                }
 		            }else if (currentUser instanceof Main_System.Teacher) {
-		                System.out.println("Directory:\n1. Teacher Information \n2. View Announcements \n3. Quit");
+		                System.out.println("Directory:\n1. Teacher Information \n2. View Inbox \n3. Quit");
 		                int command = scan.nextInt();
 		                if (command == 1) {
 		                	System.out.println(currentUser.toString());
@@ -63,7 +61,7 @@ public class Main {
 		                	System.exit(0);
 		                }
 		            }else {
-		                System.out.println("Directory:\n1. Student Information \n2. View Announcements \n3. Quit");
+		                System.out.println("Directory:\n1. Student Information \n2. View Inbox \n3. Quit");
 		                int command = scan.nextInt();
 		                if (command == 1) {
 		                	System.out.println(currentUser.toString());
