@@ -51,12 +51,26 @@ public class Main {
 		                	System.exit(0);
 		                }
 		            }else if (currentUser instanceof Main_System.Teacher) {
-		                System.out.println("Directory:\n1. Teacher Information \n2. View Inbox \n3. Quit");
+		                System.out.println("Directory:\n1. Teacher Information \n2. View Inbox \n3. Change Student GPA\n4. Quit");
 		                int command = scan.nextInt();
 		                if (command == 1) {
 		                	System.out.println(currentUser.toString());
 		                } else if (command == 2) {
 		                	currentUser.viewInbox();
+		                } else if (command == 3) {
+		            		System.out.println("Student Username:");
+		            		String student = scan.next();
+		            		System.out.println("New GPA:");
+		            		double gpa = scan.nextDouble();
+		            		if (users.containsKey(student)) {
+		            			Student currentStudent = (Student) users.get(student);
+		            			currentStudent.setGPA(gpa);
+		            			System.out.println("Change Complete");
+		            			System.exit(0);
+		            		} else {
+		            			System.out.println("Student Not in Database");
+		            			System.exit(0);
+		            		}
 		                } else {
 		                	System.exit(0);
 		                }
