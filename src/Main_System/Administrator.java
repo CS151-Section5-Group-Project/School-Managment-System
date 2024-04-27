@@ -1,7 +1,9 @@
 package Main_System;
 
 import java.util.Scanner;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Administrator extends User {
@@ -30,28 +32,33 @@ public class Administrator extends User {
 	
 	public static void addStudentAccount(String firstName, String lastName, String userName, String password, int id, LocalDate enrollmentDate) {
 		Student student = new Student(firstName, lastName, userName, password, id, enrollmentDate);
-		//users.put(userName, student);
-		
 		Database.addAccount(student);
 	}
 	
 	public static void addTeacherAccount(String firstName, String lastName, String userName, String password, int id) {
 		Teacher teacher = new Teacher(firstName, lastName, userName, password, id);
-		//users.put(userName, teacher);
-		
 		Database.addAccount(teacher);
 	}
 	
 	public static void addAdminAccount(String firstName, String lastName, String userName, String password, int id) {
 		Administrator administrator = new Administrator(firstName, lastName, userName, password, id);
-		//users.put(userName, administrator);
-		
 		Database.addAccount(administrator);
+	}
+	
+	public static void addCourse(String name, Teacher teacher, String term, Classroom classroom, LocalDate startTime, LocalDate endTime, ArrayList<DayOfWeek> day) {
+		Course course = new Course(name, teacher, term, classroom, startTime, endTime, day);
+		Database.addCourse(course);
+	}
+	
+	public static void addCourse(String name, Teacher teacher, String term) {
+		Course course = new Course(name, teacher, term);
+		Database.addCourse(course);
 	}
 	
 	public void setLevel(Level i) {
 		this.i = i;
 	}
+	
 	public String toString() {
 		return super.toString() + "\nLevel: " + i;
 	}
