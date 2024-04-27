@@ -19,4 +19,14 @@ public class Teacher extends User{
 	public String toString() {
 		return super.toString() + "\nCourses: " + Courses;
 	}
+	
+	public void changeStudentGPA(String user, double gpa) {
+		if (Accounts.users.containsKey(user)) {
+			Student currentStudent = (Student) Accounts.users.get(user);
+			currentStudent.setGPA(gpa);
+			System.out.println("Change Complete");
+		} else {
+			System.out.println("Student Not in Database");
+		}
+	}
 }

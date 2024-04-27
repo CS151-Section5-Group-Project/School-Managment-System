@@ -63,6 +63,7 @@ public abstract class User {
 		return "First Name: " + first_name + "\nLast Name: " + last_name + "\nID: " + ID;
 	}
 	
+	// Leo: Prints out the posts that is the inbox ArrayList 
 	public void viewInbox() {
 		if (inbox.isEmpty()) {
 			System.out.println("No posts currently in inbox.");

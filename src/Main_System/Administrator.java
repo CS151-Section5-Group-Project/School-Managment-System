@@ -1,6 +1,7 @@
 package Main_System;
 
 import java.util.Scanner;
+import java.util.Map;
 
 public class Administrator extends User {
 	public enum Level {
@@ -32,16 +33,38 @@ public class Administrator extends User {
 		return super.toString() + "\nLevel: " + i;
 	}
 	
+	/*
+	 * Leo: Allows administrator to create posts and 
+	 * depending on their type (Announcement or Message)
+	 * will either add the post to every user in the Accounts class
+	 * or add the post to a specific user
+	 */
 	public void createPost() {	
 		Scanner scan = new Scanner(System.in);
 		System.out.println("SUBJECT:");
 		String subject = scan.nextLine();
         System.out.println("MESSAGE:");
         String message = scan.nextLine();
-        System.out.println("TYPE:");
+        System.out.println("(Announcement or Message) TYPE:");
         String type = scan.nextLine();
 		Post a = new Post(subject, message, type);
-		getInbox().add(a);
-		System.out.println("Post Created:\n" + a.toString() + "\n");
+		
+		if (type.equals("Announcement")) {
+			for(User account: Accounts.users.values()) {
+				account.getInbox().add(a);
+			}
+			System.out.println("Post Created:\n" + a.toString() + "\n");
+		} else if (type.equals("Message")){
+			System.out.println("(username) TO:");
+			String user = scan.nextLine();
+			if (Accounts.users.containsKey(user)) {
+				Accounts.users.get(user).getInbox().add(a);
+				System.out.println("Post Created:\n" + a.toString() + "\n");
+			}else {
+				System.out.println("User does not exist.");
+			}
+		}else {
+			System.out.println("Invalid type");
+		}
 	}
 }
