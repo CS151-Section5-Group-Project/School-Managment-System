@@ -1,43 +1,114 @@
 package Main_System;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 public class Student extends User {
-	private double GPA;
-	private String yearClass;
-	private Boolean gradStatus;
+	/*
+	 * 
+	 * Variables
+	 * 
+	 */
+	
+	private LocalDate enrollmentDate; // the date the student have applied
+	private HashMap<Course, Double> courseHistory; // all courses taken (including repeats) with displayed GPA (for that course)
+	private boolean graduationStatus;
+	
+	/*
+	 * 
+	 * Constructors
+	 * 
+	 */
+	
 	public Student() {
 		super();
-		GPA = 0.0;
-		yearClass = " ";
-		gradStatus = false;
+		enrollmentDate = null;
+		courseHistory = new HashMap<Course, Double>();
+		graduationStatus = false;
 	}
-	public Student(String last, String first, String user, String pass, int id, double Gpa, String Class, Boolean gradStatus) {
-		super(last, first, user, pass, id);
-		GPA = Gpa;
-		yearClass = Class;
-		this.gradStatus = gradStatus;
+	
+	public Student(String firstName, String lastName, String userName, String password, int id, LocalDate enrollmentDate) {
+		super(firstName, lastName, userName, password, id);
+		this.enrollmentDate = enrollmentDate;
+		this.courseHistory = new HashMap<Course, Double>();
+		this.graduationStatus = false;
 	}
+	
+	/*
+	 * 
+	 * Getter Methods
+	 * 
+	 */
+	
+	public String getClassOf() {
+		return "Class of " + enrollmentDate.getYear();
+	}
+	
 	public double getGPA() {
-		return GPA;
+		int totalScore = 0;
+		
+		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+			totalScore += Math.ceil(entry.getValue());
+		}
+		
+		return (double)totalScore/courseHistory.size();
 	}
-	public String getYearClass() {
-		return yearClass;
+	
+	public double getUnit() {
+		int totalUnit = 0;
+		
+		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+			totalUnit += entry.getKey().getUnit();
+		}
+		
+		return totalUnit;
 	}
-	public Boolean getGradStatus() {
-		return gradStatus;
+	
+	/*
+	 * Leo: Checks the graduation status of the student. 
+	 * If gradStatus is true, the student will see that 
+	 * they've applied for graduation, otherwise it's pending.
+	 */
+	public void getGraduationStatus() {
+		System.out.print("GRADUATION STATUS: ");
+		
+		if(graduationStatus && getUnit() == 120) {
+			System.out.println("Applied for Graduation");
+			return;
+		}
+		
+		System.out.println("Need to Finish Pending Work");
 	}
-	public void setGradStatus(Boolean gradStatus) {
-		this.gradStatus = gradStatus;
+	
+	/*
+	 * 
+	 * Other Methods
+	 * 
+	 */
+	
+	public void addCourse(Course course) {
+		courseHistory.put(course, 4.0);
 	}
-	public void setGPA(double gpa) {
-		GPA = gpa;
+	
+	public void dropCourse(Course course) {
+		if (!courseHistory.containsKey(course)) {
+			System.out.println("Course not enrolled.");
+			return;
+		}
+		
+		courseHistory.remove(course);
 	}
-	public void setYearClass(String year) {
-		yearClass = year;
-	}
+	
 	public String toString() {
-		return super.toString() + "\nGPA: " + GPA + "\nClass: " + yearClass;
+		return super.toString() + 
+				"\nGPA: " + getGPA() + 
+				"\nAll classes taken: " + courseHistory.toString() +
+				"\nEnrolled in: " + enrollmentDate.toString() +
+				"\nClass: " + getClassOf();
 	}
 	
 	/*
@@ -56,24 +127,10 @@ public class Student extends User {
         System.out.println("(username) TO:");
 		String user = scan.nextLine();
 		if (Accounts.users.containsKey(user)) {
-			Accounts.users.get(user).getInbox().add(msg);
+			Accounts.users.get(user).getInbox().getReceived().add(msg);
 			System.out.println("Post Created:\n" + msg.toString() + "\n");
 		}else {
 			System.out.println("User does not exist.");
-		}
-	}
-	
-	/*
-	 * Leo: Checks the graduation status of the student. 
-	 * If gradStatus is true, the student will see that 
-	 * they've applied for graduation, otherwise it's pending.
-	 */
-	public void checkGradStatus() {
-		System.out.print("GRADUATION STATUS: ");
-		if(gradStatus) {
-			System.out.println("Applied for Graduation");
-		}else {
-			System.out.println("Need to Finish Pending Work");
 		}
 	}
 }

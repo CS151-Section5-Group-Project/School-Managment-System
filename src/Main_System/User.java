@@ -1,77 +1,106 @@
 package Main_System;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public abstract class User {
-	private String last_name;
-	private String first_name;
-	private String user_name;
+	private String firstName;
+	private String lastName;
+	private String userName;
 	private String password;
-	private int ID;
-	private ArrayList<Post> inbox;
+	private int id;
+	private Inbox inbox;
+	private LocalDate createdAt;
 	
 	public User() {
-		last_name = " ";
-		first_name = " ";
-		user_name = " ";
-		password = " ";
-		ID = 0;
-		inbox = new ArrayList<Post>();
+		firstName = "";
+		lastName = "";
+		userName = "";
+		password = "";
+		int id = 0;
+		inbox = new Inbox();
+		createdAt = LocalDate.now();
 	}
-	public User(String last, String first, String user, String pass, int Id) {
-		last_name = last;
-		first_name = first;
-		user_name = user;
-		password = pass;
-		ID = Id;
-		inbox = new ArrayList<Post>();
+	
+	public User(String firstName, String lastName, String userName, String password, int id) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.password = password;
+		this.id = id;
+		inbox = new Inbox();
+		createdAt = LocalDate.now();
 	}
-	public String getLastName() {
-		return last_name;
-	}
+	
 	public String getFirstName() {
-		return first_name;
+		return firstName;
 	}
-	public String getUserName() {
-		return user_name;
+	
+	public int getId() {
+		return id;
 	}
+	
+	public Inbox getInbox() {
+		return inbox;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
-	public int getID() {
-		return ID;
+	
+	public String getUserName() {
+		return userName;
 	}
-	public ArrayList<Post> getInbox(){
-		return inbox;
+	
+	public String getFullName() {
+		return getFirstName() + " " + getLastName();
 	}
-	public void setLastName(String last) {
-		last_name = last;
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public void setFirstName(String first) {
-		first_name = first;
+	
+	public void setID(int iD) {
+		this.id = iD;
 	}
-	public void setUser(String user) {
-		user_name = user;
+	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	public void setPass(String pass) {
-		password = pass;
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	public void setID(int id) {
-		ID = id;
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
+	
+	@Override
 	public String toString() {
-		return "First Name: " + first_name + "\nLast Name: " + last_name + "\nID: " + ID;
+		return "First Name: " + firstName + 
+				"\nLast Name: " + lastName + 
+				"Username: " + userName +
+				"\nID: " + id;
 	}
 	
 	// Leo: Prints out the posts that is the inbox ArrayList 
 	public void viewInbox() {
-		if (inbox.isEmpty()) {
+		if (inbox.getReceived().isEmpty()) {
 			System.out.println("No posts currently in inbox.");
 		}else {
-			for (Post p: inbox) {
+			for (Post p: inbox.getReceived()) {
 				System.out.println(p.toString() + "\n");
 			}
 		}
+	}
+	
+	public void sendPost(User user, String subject, String message) {
+		inbox.sendPost(user, new Post(subject, message, "message"));
 	}
 	
 	// abstract void createPost();

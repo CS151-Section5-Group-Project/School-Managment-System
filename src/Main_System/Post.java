@@ -1,15 +1,21 @@
 package Main_System;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Post {
 	private String subject;
 	private String message;
 	private LocalDate createdAt;
 	private String type;
+	private ArrayList<Post> replies;
 	
 	public Post() {
-		
+		subject = "";
+		message = "";
+		createdAt = LocalDate.now();
+		type = "";
+		replies = new ArrayList<Post>();
 	}
 	
 	public Post(String subject, String message, String type) {
@@ -17,6 +23,7 @@ public class Post {
 		this.message = message;
 		this.createdAt = LocalDate.now();
 		this.type = type;
+		replies = new ArrayList<Post>();
 	}
 	
 	public String getSubject() {
