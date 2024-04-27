@@ -31,17 +31,21 @@ public class Main {
 		            if(currentUser instanceof Main_System.Administrator) {
 		            	Administrator currentAdmin = (Administrator) currentUser;
 		                System.out.println("\nDirectory:\n1. Admin Information \n2. Create Announcement \n"
-		                		+ "3. View Inbox \n4. Logout \n5. Quit");
+		                		+ "3. Remove Teacher or Student \n4. View Inbox \n5. Logout \n6. Quit");
 		                int command = scan.nextInt();
 		                if (command == 1) {
 		                	System.out.println(currentUser.toString());
 		                } else if (command == 2) {
 		                	currentAdmin.createPost();
-		                }else if (command == 3) {
-		                	currentAdmin.viewInbox();
+		                } else if (command == 3) {
+		                	System.out.println("Person being removed: ");
+		                	String name = scan.next();
+		                	currentAdmin.removeUser(name);
 		                } else if (command == 4) {
+		                	currentAdmin.viewInbox();
+		                } else if (command == 5) {
 		                	break;
-		                }else {
+		                } else {
 		                	System.exit(0);
 		                }
 		            }else if (currentUser instanceof Main_System.Teacher) {
