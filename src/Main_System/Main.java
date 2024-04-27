@@ -5,34 +5,28 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        HashMap<String, User> users = new HashMap<String, User>();
-        users.put("leo.truong", new Student("Truong", "Leo", "leo.truong", 
-                "leopass123", 174, 3.1, "2025"));
-        users.put("teacher.user", new Teacher("Teacher", "Mr", "teacher.user",
-                "teachpass", 82, "MATH"));
-        
-        Administrator admin = new Administrator("Luong", "Brian", "flame", "123", 1, Administrator.Level.I);
-        
-        users.put("flame", admin);
-        
+    	Accounts.initializeAccounts();
         User currentUser;
         
         try(Scanner scan = new Scanner(System.in)){
+        	// Leo: Outer while loop to continue the simulation until program terminates
         	while(true) {
+        		// Leo: Inner while loop to simulate the login process; exits loop once "logged in"
 	            while(true) {
 	                System.out.println("Username:");
 	                String user = scan.next();
 	                System.out.println("Password:");
 	                String pass = scan.next();
-	                if (users.containsKey(user) && users.get(user).getPassword().equals(pass)) {
+	                if (Accounts.users.containsKey(user) && Accounts.users.get(user).getPassword().equals(pass)) {
 	                    System.out.println("Login successful");
-	                    currentUser = users.get(user);
+	                    currentUser = Accounts.users.get(user);
 	                    break;
 	                }else {
 	                    System.out.println("Invalid username or password\n");
 	                }
 	            }
 	            
+	            // Leo: Inner while loop to simulate user choices; exits when user "logs out" or program terminates
 	            while(true) {
 		            if(currentUser instanceof Main_System.Administrator) {
 		            	Administrator currentAdmin = (Administrator) currentUser;
@@ -51,37 +45,39 @@ public class Main {
 		                	System.exit(0);
 		                }
 		            }else if (currentUser instanceof Main_System.Teacher) {
-		                System.out.println("Directory:\n1. Teacher Information \n2. View Inbox \n3. Change Student GPA\n4. Quit");
+		            	Teacher currentTeacher = (Teacher) currentUser;
+		                System.out.println("\nDirectory:\n1. Teacher Information \n2. View Inbox \n"
+		                		+ "3. Change Student GPA\n4. Logout \n5. Quit");
 		                int command = scan.nextInt();
 		                if (command == 1) {
-		                	System.out.println(currentUser.toString());
+		                	System.out.println(currentTeacher.toString());
 		                } else if (command == 2) {
-		                	currentUser.viewInbox();
+		                	currentTeacher.viewInbox();
 		                } else if (command == 3) {
 		            		System.out.println("Student Username:");
 		            		String student = scan.next();
 		            		System.out.println("New GPA:");
 		            		double gpa = scan.nextDouble();
-		            		if (users.containsKey(student)) {
-		            			Student currentStudent = (Student) users.get(student);
-		            			currentStudent.setGPA(gpa);
-		            			System.out.println("Change Complete");
-		            			System.exit(0);
-		            		} else {
-		            			System.out.println("Student Not in Database");
-		            			System.exit(0);
-		            		}
-		                } else {
+		            		currentTeacher.changeStudentGPA(student, gpa);
+		                } else if (command == 4){
+		                	break;
+		                }else {
 		                	System.exit(0);
 		                }
 		            }else {
-		                System.out.println("Directory:\n1. Student Information \n2. View Inbox \n3. Quit");
+		            	Student currentStudent = (Student) currentUser;
+		                System.out.println("\nDirectory:\n1. Student Information \n2. View Inbox \n"
+		                		+ "3. Check Graduation Status \n4. Logout \n5. Quit");
 		                int command = scan.nextInt();
 		                if (command == 1) {
-		                	System.out.println(currentUser.toString());
+		                	System.out.println(currentStudent.toString());
 		                } else if (command == 2) {
-		                	currentUser.viewInbox();
-		                } else {
+		                	currentStudent.viewInbox();
+		                } else if (command == 3) {
+		                	currentStudent.checkGradStatus();
+		                } else if (command == 4) {
+		                	break;
+		                }else {
 		                	System.exit(0);
 		                }
 		            }
