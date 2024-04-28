@@ -10,10 +10,10 @@ public class Main {
         
         try {
 			System.out.println("Press \"q\" to terminate console during user selection.");
-			
-		    scanner = new Scanner(System.in);
 		    
 		    while (true) {
+		    	scanner = new Scanner(System.in);
+		    	
 		    	String username = "";
 		    	String password = "";
 		    	User currentUser = null;

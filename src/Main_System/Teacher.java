@@ -64,8 +64,6 @@ public class Teacher extends User{
 			}
 		} finally {
 		    System.out.println("Fully exit out of teacher mode.");
-		    if (scanner != null)
-		    	scanner.close();
 		}
 	}
 	
