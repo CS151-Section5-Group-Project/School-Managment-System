@@ -1,78 +1,163 @@
 package Main_System;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.util.Scanner;
 
 public abstract class User {
-	private String last_name;
-	private String first_name;
-	private String user_name;
+	private String firstName;
+	private String lastName;
+	private String userName;
 	private String password;
-	private int ID;
-	private ArrayList<Post> inbox;
+	private int id;
+	private Inbox inbox;
+	private LocalDate createdAt;
 	
 	public User() {
-		last_name = " ";
-		first_name = " ";
-		user_name = " ";
-		password = " ";
-		ID = 0;
-		inbox = new ArrayList<Post>();
+		firstName = "";
+		lastName = "";
+		userName = "";
+		password = "";
+		id = Database.getUsers().size();
+		inbox = new Inbox();
+		createdAt = LocalDate.now();
 	}
-	public User(String last, String first, String user, String pass, int Id) {
-		last_name = last;
-		first_name = first;
-		user_name = user;
-		password = pass;
-		ID = Id;
-		inbox = new ArrayList<Post>();
+	
+	public User(String firstName, String lastName, String userName, String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.password = password;
+		this.id = Database.getUsers().size();;
+		inbox = new Inbox();
+		createdAt = LocalDate.now();
 	}
-	public String getLastName() {
-		return last_name;
-	}
+	
 	public String getFirstName() {
-		return first_name;
+		return firstName;
 	}
-	public String getUserName() {
-		return user_name;
+	
+	public int getId() {
+		return id;
 	}
+	
+	public Inbox getInbox() {
+		return inbox;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
-	public int getID() {
-		return ID;
-	}
-	public ArrayList<Post> getInbox(){
-		return inbox;
-	}
-	public void setLastName(String last) {
-		last_name = last;
-	}
-	public void setFirstName(String first) {
-		first_name = first;
-	}
-	public void setUser(String user) {
-		user_name = user;
-	}
-	public void setPass(String pass) {
-		password = pass;
-	}
-	public void setID(int id) {
-		ID = id;
-	}
-	public String toString() {
-		return "First Name: " + first_name + "\nLast Name: " + last_name + "\nID: " + ID;
+	
+	public String getUserName() {
+		return userName;
 	}
 	
-	// Leo: Prints out the posts that is the inbox ArrayList 
+	public String getFullName() {
+		return getFirstName() + " " + getLastName();
+	}
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public void setID(int iD) {
+		this.id = iD;
+	}
+	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	@Override
+	public String toString() {
+		return "Full name: " + getFullName() +
+				"\nUsername: " + userName +
+				"\nID: " + id +
+				"\nAccount created by: " + createdAt;
+	}
+	
 	public void viewInbox() {
-		if (inbox.isEmpty()) {
+		if (inbox.getReceived().isEmpty()) {
 			System.out.println("No posts currently in inbox.");
-		}else {
-			for (Post p: inbox) {
-				System.out.println(p.toString() + "\n");
+			return;
+		}
+		
+		inbox.viewInbox();
+	}
+	
+	public Post sendPost(User user, String subject, String message) {
+		Post post = new Post(this, subject, message, "message");
+		
+		Inbox.sendPost(user, post);
+		
+		return post;
+	}
+	
+	public void createPost() throws CloneNotSupportedException {
+		String receiver = "";
+		User receiverObject = null;
+		String subject = "";
+		String message = "";
+		
+		int state = 0;
+		
+		Scanner scanner = null;
+		
+		try {
+		    scanner = new Scanner(System.in);
+		    
+		    while (true) {
+				if (state == 0) { // listening for sender
+					System.out.print("Enter username to send to: ");
+					receiver = scanner.nextLine();
+					System.out.println("\n");
+					
+					if (!Database.getUsers().containsKey(receiver)) { // check if user exist
+						System.out.println("User does not exist.");
+						continue;
+					}
+					
+					receiverObject = Database.getUsers().get(receiver);
+					
+					state++;
+				}
+				
+				if (state == 1) { // listening for subject
+					System.out.print("Enter subject: ");
+					subject = scanner.nextLine();
+					System.out.println("\n");
+					
+					state++;
+				}
+				
+				if (state == 2) { // listening for message
+					System.out.print("Enter message:");
+			        message = scanner.nextLine();
+			        System.out.println("\n");
+					
+					Post post = sendPost(receiverObject, subject, message);
+					
+					System.out.println("Message sent: \n" + post);
+					break;
+				}
 			}
+		} finally {
+		    if(scanner != null)
+		        scanner.close();
 		}
 	}
-	
-	// abstract void createPost();
+
+	public abstract void onLogin();
 }
