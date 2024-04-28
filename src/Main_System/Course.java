@@ -3,12 +3,9 @@ package Main_System;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import javax.sound.midi.Soundbank;
 
 public class Course {
 	private String name; // name of course
@@ -212,6 +209,12 @@ public class Course {
 		return assignmentPositions;
 	}
 	
+	public void sendAnnouncement(Post post) throws CloneNotSupportedException {
+		for (Student student: students) {
+			Inbox.sendPost(student, post.clone());
+		}
+	}
+	
 	public void gradeAssignment(Assignment assignment, int score) {
 		assignment.gradeAssignment(score);
 	}
@@ -322,6 +325,5 @@ public class Course {
 		}
 		
 		return result;
-		
 	}
 }

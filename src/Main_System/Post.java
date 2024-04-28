@@ -3,7 +3,8 @@ package Main_System;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Post {
+public class Post implements Cloneable{
+	private User sender;
 	private String subject;
 	private String message;
 	private LocalDate createdAt;
@@ -11,6 +12,7 @@ public class Post {
 	private ArrayList<Post> replies;
 	
 	public Post() {
+		sender = null;
 		subject = "";
 		message = "";
 		createdAt = LocalDate.now();
@@ -18,13 +20,19 @@ public class Post {
 		replies = new ArrayList<Post>();
 	}
 	
-	public Post(String subject, String message, String type) {
+	public Post(User sender, String  subject, String message, String type) {
+		this.sender = sender;
 		this.subject = subject;
 		this.message = message;
 		this.createdAt = LocalDate.now();
 		this.type = type;
 		replies = new ArrayList<Post>();
 	}
+	
+	public Post clone() throws CloneNotSupportedException 
+    { 
+        return (Post) super.clone(); 
+    } 
 	
 	public String getSubject() {
 		return subject;
@@ -55,8 +63,9 @@ public class Post {
 	}
 	
 	public String toString() {
-		return "SUBJECT: " + subject + 
-				"\nDATE: " + createdAt + 
-				"\nMESSAGE: " + message;
+		return "SENDER: " + sender +
+				"\nSUBJECT: " + subject + 
+				"\nMESSAGE: " + message +
+				"\nDATE: " + createdAt;
 	}
 }

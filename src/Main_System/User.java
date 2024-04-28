@@ -1,7 +1,7 @@
 package Main_System;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Scanner;
 
 public abstract class User {
 	private String firstName;
@@ -17,17 +17,17 @@ public abstract class User {
 		lastName = "";
 		userName = "";
 		password = "";
-		int id = 0;
+		id = Database.getUsers().size();
 		inbox = new Inbox();
 		createdAt = LocalDate.now();
 	}
 	
-	public User(String firstName, String lastName, String userName, String password, int id) {
+	public User(String firstName, String lastName, String userName, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
-		this.id = id;
+		this.id = Database.getUsers().size();;
 		inbox = new Inbox();
 		createdAt = LocalDate.now();
 	}
@@ -82,26 +82,82 @@ public abstract class User {
 	
 	@Override
 	public String toString() {
-		return "First Name: " + firstName + 
-				"\nLast Name: " + lastName + 
-				"Username: " + userName +
-				"\nID: " + id;
+		return "Full name: " + getFullName() +
+				"\nUsername: " + userName +
+				"\nID: " + id +
+				"\nAccount created by: " + createdAt;
 	}
 	
-	// Leo: Prints out the posts that is the inbox ArrayList 
 	public void viewInbox() {
 		if (inbox.getReceived().isEmpty()) {
 			System.out.println("No posts currently in inbox.");
-		}else {
-			for (Post p: inbox.getReceived()) {
-				System.out.println(p.toString() + "\n");
+			return;
+		}
+		
+		inbox.viewInbox();
+	}
+	
+	public Post sendPost(User user, String subject, String message) {
+		Post post = new Post(this, subject, message, "message");
+		
+		Inbox.sendPost(user, post);
+		
+		return post;
+	}
+	
+	public void createPost() throws CloneNotSupportedException {
+		String receiver = "";
+		User receiverObject = null;
+		String subject = "";
+		String message = "";
+		
+		int state = 0;
+		
+		Scanner scanner = null;
+		
+		try {
+		    scanner = new Scanner(System.in);
+		    
+		    while (true) {
+				if (state == 0) { // listening for sender
+					System.out.print("Enter username to send to: ");
+					receiver = scanner.nextLine();
+					System.out.println("\n");
+					
+					if (!Database.getUsers().containsKey(receiver)) { // check if user exist
+						System.out.println("User does not exist.");
+						continue;
+					}
+					
+					receiverObject = Database.getUsers().get(receiver);
+					
+					state++;
+				}
+				
+				if (state == 1) { // listening for subject
+					System.out.print("Enter subject: ");
+					subject = scanner.nextLine();
+					System.out.println("\n");
+					
+					state++;
+				}
+				
+				if (state == 2) { // listening for message
+					System.out.print("Enter message:");
+			        message = scanner.nextLine();
+			        System.out.println("\n");
+					
+					Post post = sendPost(receiverObject, subject, message);
+					
+					System.out.println("Message sent: \n" + post);
+					break;
+				}
 			}
+		} finally {
+		    if(scanner != null)
+		        scanner.close();
 		}
 	}
-	
-	public void sendPost(User user, String subject, String message) {
-		inbox.sendPost(user, new Post(subject, message, "message"));
-	}
-	
-	// abstract void createPost();
+
+	public abstract void onLogin();
 }

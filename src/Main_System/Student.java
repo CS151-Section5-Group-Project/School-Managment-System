@@ -1,10 +1,7 @@
 package Main_System;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Map.Entry;
 
 public class Student extends User {
@@ -31,11 +28,16 @@ public class Student extends User {
 		graduationStatus = false;
 	}
 	
-	public Student(String firstName, String lastName, String userName, String password, int id, LocalDate enrollmentDate) {
-		super(firstName, lastName, userName, password, id);
+	public Student(String firstName, String lastName, String userName, String password, LocalDate enrollmentDate) {
+		super(firstName, lastName, userName, password);
 		this.enrollmentDate = enrollmentDate;
 		this.courseHistory = new HashMap<Course, Double>();
 		this.graduationStatus = false;
+	}
+	
+	@Override
+	public void onLogin() {
+		// TODO Auto-generated method stub
 	}
 	
 	/*
@@ -109,28 +111,5 @@ public class Student extends User {
 				"\nAll classes taken: " + courseHistory.toString() +
 				"\nEnrolled in: " + enrollmentDate.toString() +
 				"\nClass: " + getClassOf();
-	}
-	
-	/*
-	 * Leo: Allows student to create posts of type 
-	 * "Message" which would allow them send a message
-	 * to any user within the database.
-	 */
-	public void createPost() {
-		Scanner scan = new Scanner(System.in);
-		System.out.println("SUBJECT:");
-		String subject = scan.nextLine();
-        System.out.println("MESSAGE:");
-        String message = scan.nextLine();
-        Post msg = new Post(subject, message, "Message");
-        
-        System.out.println("(username) TO:");
-		String user = scan.nextLine();
-		if (Accounts.users.containsKey(user)) {
-			Accounts.users.get(user).getInbox().getReceived().add(msg);
-			System.out.println("Post Created:\n" + msg.toString() + "\n");
-		}else {
-			System.out.println("User does not exist.");
-		}
 	}
 }

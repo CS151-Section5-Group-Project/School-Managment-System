@@ -19,6 +19,13 @@ public class Inbox {
 		return sent;
 	}
 	
+	public void viewInbox() {
+		System.out.println("All Inbox:\n");
+		for (Post post: received) {
+			System.out.println(post.toString() + "\n");
+		}
+	}
+	
 	public void deletePost(Post post) {
 		if (!received.contains(post)) {
 			System.out.println("Post not found.");
@@ -28,7 +35,7 @@ public class Inbox {
 		received.remove(post);
 	}
 	
-	public void sendPost(User user, Post post) {
+	public static void sendPost(User user, Post post) {
 		user.getInbox().received.add(post);
 	}
 }

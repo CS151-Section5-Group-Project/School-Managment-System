@@ -77,6 +77,8 @@ public class Assignment {
 			result += gradedScore;
 		}
 		
+		result += "\nAssignment created at: " + createdAt.toString();
+		
 		return result;
 	}
 }
