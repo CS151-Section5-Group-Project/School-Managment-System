@@ -162,4 +162,17 @@ public class Administrator extends User {
 		        scanner.close();
 		}
 	}
+	public void removeUser(String user) {
+		Scanner scan = new Scanner(System.in);
+    		if (Accounts.users.containsKey(user)) {
+    			System.out.println("Are you sure you want to delete this person?\n1. Yes\n2. No");
+    			int confirm = scan.nextInt();
+    			if (confirm == 1) {
+    				Accounts.users.remove(user);
+    				System.out.println("Removal Completed");
+    			} else {
+    				System.out.println("Removal Cancelled");
+    			}
+    		}
+	}
 }
