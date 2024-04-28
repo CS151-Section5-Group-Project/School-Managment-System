@@ -63,7 +63,7 @@ public class Post implements Cloneable{
 	}
 	
 	public String toString() {
-		return "SENDER: " + sender +
+		return "SENDER: " + sender.getFullName() +
 				"\nSUBJECT: " + subject + 
 				"\nMESSAGE: " + message +
 				"\nDATE: " + createdAt;

@@ -1,7 +1,6 @@
 package Main_System;
 
 import java.time.LocalDate;
-import java.util.Scanner;
 
 public abstract class User {
 	private String firstName;
@@ -85,7 +84,7 @@ public abstract class User {
 		return "Full name: " + getFullName() +
 				"\nUsername: " + userName +
 				"\nID: " + id +
-				"\nAccount created by: " + createdAt;
+				"\nAccount created at: " + createdAt;
 	}
 	
 	public void viewInbox() {
@@ -113,51 +112,61 @@ public abstract class User {
 		
 		int state = 0;
 		
-		Scanner scanner = null;
-		
-		try {
-		    scanner = new Scanner(System.in);
-		    
-		    while (true) {
-				if (state == 0) { // listening for sender
-					System.out.print("Enter username to send to: ");
-					receiver = scanner.nextLine();
-					System.out.println("\n");
-					
-					if (!Database.getUsers().containsKey(receiver)) { // check if user exist
-						System.out.println("User does not exist.");
-						continue;
-					}
-					
-					receiverObject = Database.getUsers().get(receiver);
-					
-					state++;
-				}
+		while (true) {
+			if (state == 0) { // listening for sender
+				System.out.println("Press \"q\" to exit.");
+				System.out.print("Enter username to send to: ");
+				receiver = Database.scanner.nextLine();
+				System.out.println("\n");
 				
-				if (state == 1) { // listening for subject
-					System.out.print("Enter subject: ");
-					subject = scanner.nextLine();
-					System.out.println("\n");
-					
-					state++;
-				}
-				
-				if (state == 2) { // listening for message
-					System.out.print("Enter message:");
-			        message = scanner.nextLine();
-			        System.out.println("\n");
-					
-					Post post = sendPost(receiverObject, subject, message);
-					
-					System.out.println("Message sent: \n" + post);
+				if (receiver.equals("q")) {
 					break;
 				}
+				
+				if (!Database.getUsers().containsKey(receiver)) { // check if user exist
+					System.out.println("User does not exist.");
+					continue;
+				}
+				
+				receiverObject = Database.getUsers().get(receiver);
+				
+				state++;
 			}
-		} finally {
-		    if(scanner != null)
-		        scanner.close();
+			
+			if (state == 1) { // listening for subject
+				System.out.println("Press \"q\" to go back.");
+				System.out.print("Enter subject: ");
+				subject = Database.scanner.nextLine();
+				System.out.println("\n");
+				
+				if (receiver.equals("q")) {
+					state--;
+					continue;
+				}
+				
+				state++;
+			}
+			
+			if (state == 2) { // listening for message
+				System.out.println("Press \"q\" to go back.");
+				System.out.print("Enter message:");
+		        message = Database.scanner.nextLine();
+		        System.out.println("\n");
+				
+		        if (receiver.equals("q")) {
+					state--;
+					continue;
+				}
+		        
+				Post post = sendPost(receiverObject, subject, message);
+				
+				System.out.println("Message sent: \n" + post);
+				break;
+			}
 		}
+		
+		System.out.println("Exiting create post method...");
 	}
 
-	public abstract void onLogin();
+	public abstract void onLogin() throws CloneNotSupportedException;
 }

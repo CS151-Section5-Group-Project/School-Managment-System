@@ -1,7 +1,6 @@
 package Main_System;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class Course {
 	}
 	
 	// constructor for classes with a time
-	public Course(String name, Teacher teacher, String term, Classroom classroom, LocalDate startTime, LocalDate endTime, ArrayList<DayOfWeek> day) { 
+	public Course(String name, Teacher teacher, String term, Classroom classroom, LocalTime startTime, LocalTime endTime, ArrayList<DayOfWeek> day) { 
 		this.name = name;
 		this.teacher = teacher;
 		this.term = term;
@@ -307,7 +306,7 @@ public class Course {
 	@Override
 	public String toString() {
 		String result = "Course Name: " + name + 
-				"\nInstructor Teaching: " + name + 
+				"\nInstructor Teaching: " + teacher.getFullName() + 
 				"\nLocation: " + classroom + 
 				"\nTerm: " + term + 
 				"\nTime: " + startTime + " - " + endTime + 

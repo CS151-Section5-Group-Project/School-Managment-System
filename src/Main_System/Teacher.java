@@ -1,13 +1,13 @@
 package Main_System;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Teacher extends User{
-	private ArrayList<Course> courses = new ArrayList<Course>(); // courses being taught
+	private ArrayList<Course> courses; // courses being taught
 	
 	public Teacher() {
 		super();
+		courses = new ArrayList<Course>();
 	}
 	
 	public Teacher(String firstName, String lastName, String userName, String password) {
@@ -23,14 +23,10 @@ public class Teacher extends User{
 				+ "\n	\"4\"	Do command 4"
 				+ "\n	\"q\"	Logout");
 		
-		Scanner scanner = null;
-		
 		try {
 		    while (true) {
-		    	scanner = new Scanner(System.in);
-		    	
 		    	System.out.print("Enter Command: ");
-		    	String input = scanner.next();
+		    	String input = Database.scanner.next();
 		    	System.out.println();
 		    	
 		    	switch(input) {
@@ -64,8 +60,6 @@ public class Teacher extends User{
 			}
 		} finally {
 		    System.out.println("Fully exit out of teacher mode.");
-		    if (scanner != null)
-		    	scanner.close();
 		}
 	}
 	
@@ -79,7 +73,7 @@ public class Teacher extends User{
 	
 	public String toString() {
 		return super.toString() + 
-				"\nCourses being taught: " + courses;
+				"\nCourses being taught: " + courses.toString();
 	}
 	
 	public void gradeAssignment(Course course, Student student, String string, int score) {
@@ -109,15 +103,11 @@ public class Teacher extends User{
 		
 		int state = 0;
 		
-		Scanner scanner = null;
-		
 		try {
-	    	scanner = new Scanner(System.in);
-			
 		    while (true) {
 		    	if (state == 0) { // listening for type of post
 					System.out.print("Enter type (message or announcement): ");
-			        postType = scanner.nextLine();
+			        postType = Database.scanner.nextLine();
 			        System.out.println("\n");
 			        
 			        if (postType == "message") {
@@ -135,7 +125,7 @@ public class Teacher extends User{
 		    	
 				if (state == 1) { // listening for receiver (by username)
 					System.out.print("Enter username to send to: ");
-					receiverUsername = scanner.nextLine();
+					receiverUsername = Database.scanner.nextLine();
 					System.out.println("\n");
 					
 					if (!Database.getUsers().containsKey(receiverUsername)) { // check if user exist
@@ -150,7 +140,7 @@ public class Teacher extends User{
 				
 				if (state == 2) { // listening for course (by name)
 					System.out.print("Enter course to send to: ");
-					courseName = scanner.nextLine();
+					courseName = Database.scanner.nextLine();
 					System.out.println("\n");
 					
 					for (Course courseObject: Database.getCourses()) {
@@ -175,7 +165,7 @@ public class Teacher extends User{
 				
 				if (state == 3) { // listening for subject
 					System.out.print("Enter subject: ");
-					subject = scanner.nextLine();
+					subject = Database.scanner.nextLine();
 					System.out.println();
 					
 					state++;
@@ -183,7 +173,7 @@ public class Teacher extends User{
 				
 				if (state == 4) { // listening for message
 					System.out.print("Enter message:");
-			        message = scanner.nextLine();
+			        message = Database.scanner.nextLine();
 			        System.out.println();
 			        
 			        if (postType == "message") {
@@ -203,8 +193,6 @@ public class Teacher extends User{
 			}
 		} finally {
 		    System.out.println("Exiting creating post mode");
-		    if(scanner != null)
-		        scanner.close();
 		}
 	}
 }
