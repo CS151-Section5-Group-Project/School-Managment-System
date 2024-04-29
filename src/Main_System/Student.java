@@ -112,4 +112,19 @@ public class Student extends User {
 				"\nEnrolled in: " + enrollmentDate.toString() +
 				"\nClass: " + getClassOf();
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Student)) {
+			return false;
+		}
+		
+		Student student = (Student) object;
+		
+		if (student.toString().equals(this.toString())) {
+			return true;
+		}
+		
+		return false;
+	}
 }
