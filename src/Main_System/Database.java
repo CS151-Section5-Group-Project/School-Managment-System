@@ -1,6 +1,8 @@
 package Main_System;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -16,9 +18,52 @@ public final class Database {
 	}
 	
 	public static void initialize2() {
-		Administrator.addStudentAccount("Leo", "Truong", "leo.truong", "leopass123", LocalDate.of(2021, 8, 25));
-		Administrator.addTeacherAccount("Mr", "Teacher", "teacher", "pass");
-		Administrator.addAdminAccount("Brian", "Luong", "flame", "123");
+		new Student("Andy", "Test", "Andy.Test", "password", LocalDate.of(2021, 8, 26));
+		new Student("Leo", "Test", "Leo.Test", "password", LocalDate.of(2022, 8, 27));
+		new Student("Brian", "Test", "Brian.Test", "password", LocalDate.of(2023, 8, 28));
+		new Student("The", "Student", "student", "study", LocalDate.of(2003, 8, 15));
+		
+		Teacher teacher1 = new Teacher("Daniel", "Smith", "Daniel.Smith", "password");
+		Teacher teacher2 = new Teacher("Richard", "Johnson", "Richard.Johnson", "password");
+		Teacher teacher3 = new Teacher("Best", "Teacher", "Best.Teacher", "password");
+		Teacher teacher4 = new Teacher("Mr", "Teacher", "teacher", "teach");
+		
+		new Administrator("Admin", "1", "Admin.1", "password");
+		new Administrator("Admin", "2", "Admin.2", "password");
+		new Administrator("Admin", "3", "Admin.3", "password");
+		new Administrator("The", "Admin", "admin", "admin");
+		
+		Classroom classroom1 = new Classroom("BBC100", 30);
+		Classroom classroom2 = new Classroom("BBC101", 30);
+		Classroom classroom3 = new Classroom("SCI100", 30);
+		Classroom classroom4 = new Classroom("SCI101", 30);
+		
+		ArrayList<DayOfWeek> MW = new ArrayList<DayOfWeek>();
+		MW.add(DayOfWeek.MONDAY);
+		MW.add(DayOfWeek.WEDNESDAY);
+		
+		ArrayList<DayOfWeek> TTh = new ArrayList<DayOfWeek>();
+		TTh.add(DayOfWeek.TUESDAY);
+		TTh.add(DayOfWeek.THURSDAY);
+		
+		ArrayList<DayOfWeek> F = new ArrayList<DayOfWeek>();
+		F.add(DayOfWeek.FRIDAY);
+		
+		ArrayList<DayOfWeek> MTWThF = new ArrayList<DayOfWeek>();
+		MTWThF.add(DayOfWeek.MONDAY);
+		MTWThF.add(DayOfWeek.TUESDAY);
+		MTWThF.add(DayOfWeek.WEDNESDAY);
+		MTWThF.add(DayOfWeek.THURSDAY);
+		MTWThF.add(DayOfWeek.FRIDAY);
+		
+		ArrayList<DayOfWeek> W = new ArrayList<DayOfWeek>();
+		W.add(DayOfWeek.WEDNESDAY);
+		
+		new Course("CS123", teacher1, "SP2024", classroom1, LocalTime.of(18, 0), LocalTime.of(19, 15), MW);
+		new Course("CS123LAB", teacher2, "FA2024", classroom2, LocalTime.of(19, 30), LocalTime.of(20, 45), F);
+		new Course("CMPE131", teacher3, "SUM2024", classroom3, LocalTime.of(21, 0), LocalTime.of(22, 15), TTh);
+		new Course("CS133", teacher4, "WIN2024", classroom4, LocalTime.of(12, 0), LocalTime.of(13, 15), MTWThF);
+		new Course("CMPE133", teacher4, "SP2022", classroom1, LocalTime.of(14, 30), LocalTime.of(15, 45), W);
 	}
 	
 	public static ArrayList<Course> getCourses() {
@@ -33,11 +78,22 @@ public final class Database {
 		return classrooms;
 	}
 	
+	public static boolean containCourse(Course course) {
+		for (Course courseDatabase: courses) {
+			if (courseDatabase.toString().equals(course.toString())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public static boolean containUser(String username) {
 		if (users.containsKey(username)) {
 			return true;
 		}
 		
+		System.out.println("User not found in database.");
 		return false;
 	}
 	
@@ -46,6 +102,7 @@ public final class Database {
 			return users.get(username);
 		}
 		
+		System.out.println("Cannot retreive user.");
 		return null;
 	}
 	
@@ -65,7 +122,7 @@ public final class Database {
 		return null;
 	}
 	
-	public static boolean addAccount(User user) {
+	public static boolean addUser(User user) {
 		if (containUser(user.getUserName())) { // user found
 			System.out.println("User already added.");
 			return false;

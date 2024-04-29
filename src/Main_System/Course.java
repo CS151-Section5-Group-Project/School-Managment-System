@@ -15,7 +15,6 @@ public class Course {
 	private LocalTime startTime; // time the course starts
 	private LocalTime endTime; // time the course ends
 	private ArrayList<DayOfWeek> days; // the days the course is taught at
-	private ArrayList<Student> students; // the students enrolled
 	private HashMap<Student, ArrayList<Assignment>> assignments; // the assignment given
 	
 	public Course() { // default constructor
@@ -26,7 +25,11 @@ public class Course {
 		startTime = null;
 		endTime = null;
 		days = new ArrayList<DayOfWeek>();
-		students = new ArrayList<Student>();
+		assignments = new HashMap<Student, ArrayList<Assignment>>();
+		
+		if (!Database.containCourse(this)) {
+			Database.addCourse(this);
+		}
 	}
 	
 	// constructor for classes with a time
@@ -34,11 +37,16 @@ public class Course {
 		this.name = name;
 		this.teacher = teacher;
 		this.term = term;
-		this.classroom = null;
-		this.startTime = LocalTime.of(0, 0);
-		this.endTime = LocalTime.of(0, 0);
-		this.days = new ArrayList<DayOfWeek>();
-		this.students = new ArrayList<Student>();
+		this.classroom = classroom;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.days = day;
+		assignments = new HashMap<Student, ArrayList<Assignment>>();
+		
+		if (!Database.containCourse(this)) {
+			Database.addCourse(this);
+			teacher.getCourses().add(this);
+		}
 	}
 	
 	// constructor for classes without a time
@@ -46,11 +54,20 @@ public class Course {
 		this.name = name;
 		this.teacher = teacher;
 		this.term = term;
-		this.classroom = null;
-		this.startTime = null;
-		this.endTime = null;
-		this.days = new ArrayList<DayOfWeek>();
-		this.students = new ArrayList<Student>();
+		classroom = null;
+		startTime = null;
+		endTime = null;
+		days = new ArrayList<DayOfWeek>();
+		assignments = new HashMap<Student, ArrayList<Assignment>>();
+		
+		if (!Database.containCourse(this)) {
+			Database.addCourse(this);
+			teacher.getCourses().add(this);
+		}
+	}
+	
+	public HashMap<Student, ArrayList<Assignment>> getAssignments() {
+		return assignments;
 	}
 	
 	public int getUnit() {
@@ -63,10 +80,6 @@ public class Course {
 	
 	public ArrayList<DayOfWeek> getDays() {
 		return days;
-	}
-	
-	public ArrayList<Student> getStudents() {
-		return students;
 	}
 	
 	public LocalTime getEndTime() {
@@ -90,7 +103,34 @@ public class Course {
 	}
 	
 	public int getCourseSize() {
-		return students.size();
+		return assignments.size();
+	}
+	
+	public boolean containStudent(String studentUsername) {
+		User user = Database.getUser(studentUsername);
+		
+		if (user == null) {
+			return false;
+		}
+		
+		Student student = (Student) user;
+		
+		if (!assignments.containsKey(student)) {
+			System.out.println("Student is not enrolled in this course");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public Student getStudent(String studentUsername) {
+		boolean studentInCourse = containStudent(studentUsername);
+		
+		if (!studentInCourse) {
+			return null;
+		}
+		
+		return (Student) Database.getUser(studentUsername);
 	}
 	
 	public double getStudentGrade(Student student) {
@@ -160,11 +200,6 @@ public class Course {
 	// Returns the assignment from student when found
 	public Assignment getAssignmentFromStudent(Student student, String assignmentName) {
 		// Check if there are students to assign assignments
-		if (students.size() < 0) {
-			System.out.println("No students have enrolled to this course. Add students to begin assigning assignments.");
-			return null;
-		}
-		
 		ArrayList<Assignment> AssignmentList = assignments.get(student);
 		
 		for (Assignment assignment: AssignmentList) {
@@ -183,7 +218,7 @@ public class Course {
 		HashMap<Student, Integer> assignmentPositions = new HashMap<Student, Integer>();
 		
 		// Check if there are students to assign assignments
-		if (students.size() < 0) {
+		if (getCourseSize() < 0) {
 			System.out.println("No students have enrolled to this course. Add students to use this function.");
 			return assignmentPositions;
 		}
@@ -209,8 +244,8 @@ public class Course {
 	}
 	
 	public void sendAnnouncement(Post post) throws CloneNotSupportedException {
-		for (Student student: students) {
-			Inbox.sendPost(student, post.clone());
+		for (Entry<Student, ArrayList<Assignment>> entry: assignments.entrySet()) {
+			Inbox.sendPost(entry.getKey(), post.clone());
 		}
 	}
 	
@@ -218,19 +253,20 @@ public class Course {
 		assignment.gradeAssignment(score);
 	}
 	
-	public void addAssignment(String assignmentName, int totalScore) {
+	public boolean addAssignment(String assignmentName, String assignmentDescription, int totalScore) {
 		// Check if assignment already exist by name
-		Entry<Student, ArrayList<Assignment>> firstEntry = assignments.entrySet().iterator().next();
-		Student firstStudent = firstEntry.getKey();
-
-		if (getAssignmentFromStudent(firstStudent, assignmentName) != null) {
-			System.out.println("Assignment has already been added under this name. Choose a different name to add.");
-			return;
+		for (Entry<Student, ArrayList<Assignment>> entry: assignments.entrySet()) {
+			if (getAssignmentFromStudent(entry.getKey(), assignmentName) != null) {
+				System.out.println("Assignment has already been added under this name. Choose a different name to add.");
+				return false;
+			}
 		}
 		
 		for (Entry<Student, ArrayList<Assignment>> entry: assignments.entrySet()) {
-			entry.getValue().add(new Assignment(entry.getKey(), assignmentName, totalScore));
+			entry.getValue().add(new Assignment(entry.getKey(), this, assignmentName, assignmentDescription, totalScore));
 		}
+		
+		return true;
 	}
 	
 	public void removeAssignment(String assignmentName) {
@@ -266,7 +302,7 @@ public class Course {
 	}
 	
 	public boolean isFull() {
-		if (students.size() == classroom.getCapacity()) {
+		if (getCourseSize() == classroom.getCapacity()) {
 			return true;
 		}
 		
@@ -279,7 +315,6 @@ public class Course {
 			return;
 		}
 		
-		students.add(student);
 		assignments.put(student, new ArrayList<Assignment>());
 	}
 	
@@ -289,17 +324,15 @@ public class Course {
 			return;
 		}
 		
-		students.add(student);
 		assignments.put(student, new ArrayList<Assignment>());
 	}
 	
 	public void dropStudent(Student student) {
-		if (!students.contains(student)) {
+		if (!assignments.containsKey(student)) {
 			System.out.println(student.getFullName() + " does not exist in this course");
 			return;
 		}
 		
-		students.remove(student);
 		assignments.remove(student);
 	}
 	
@@ -324,20 +357,19 @@ public class Course {
 	public String toString() {
 		String result = "Course Name: " + name + 
 				"\nInstructor Teaching: " + teacher.getFullName() + 
-				"\nLocation: " + classroom + 
+				"\nLocation: " + classroom.getName() + 
 				"\nTerm: " + term + 
-				"\nTime: " + startTime + " - " + endTime + 
-				"\nDays: " + days +
+				"\nTime: " + startTime.toString() + " - " + endTime.toString() + 
+				"\nDays: " + days.toString() +
 				"\nStudents enrolled: ";
 		
 		// convert student arraylist to contain only usernames
-		for (int i = 0; i < students.size(); i++) {
-			if (i == students.size() - 1) { // check if index is at last index (array size)
-				result += students.get(i).getUserName();
-				break;
+		if (assignments.isEmpty()) {
+			result += "No student enrolled";
+		} else {
+			for (Entry<Student, ArrayList<Assignment>> entry: assignments.entrySet()) {
+				result += entry.getKey().getFirstName() + ", ";
 			}
-			
-			result += students.get(i).getUserName() + ", ";
 		}
 		
 		return result;

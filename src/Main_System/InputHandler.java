@@ -10,7 +10,7 @@ public class InputHandler {
 			paragraphInput = Database.scanner.nextLine();
 			
 			if (paragraphInput.length() == 0) {
-				System.out.println("Input cannot be blank.");
+				System.out.print("Input cannot be blank. Try again: ");
 			}
 		}
 		

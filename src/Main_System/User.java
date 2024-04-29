@@ -26,7 +26,7 @@ public abstract class User {
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
-		this.id = Database.getUsers().size();;
+		this.id = Database.getUsers().size();
 		inbox = new Inbox();
 		createdAt = LocalDate.now();
 	}
@@ -84,7 +84,8 @@ public abstract class User {
 		return "Full name: " + getFullName() +
 				"\nUsername: " + userName +
 				"\nID: " + id +
-				"\nAccount created at: " + createdAt;
+				"\nAccount created at: " + createdAt +
+				"\nAccount type: " + this.getClass();
 	}
 	
 	public void viewInbox() {

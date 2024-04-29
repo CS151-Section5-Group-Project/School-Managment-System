@@ -38,4 +38,12 @@ public class Inbox {
 	public static void sendPost(User user, Post post) {
 		user.getInbox().received.add(post);
 	}
+	
+	public void replyPost(Post receivedPost, Post post) throws Exception {
+		if (received.contains(receivedPost)) {
+			throw new Exception("Calling function with received post that is outside of inbox");
+		}
+		
+		receivedPost.getReplies().add(post);
+	}
 }
