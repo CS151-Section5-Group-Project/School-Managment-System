@@ -18,7 +18,7 @@ public class Administrator extends User {
 	@Override
 	public void onLogin() throws CloneNotSupportedException {
 		while (true) {
-			System.out.println("Enter one of the following commands: "
+			System.out.println("\nEnter one of the following commands:\n"
 					+ "\n	\"1\"	View inbox"
 					+ "\n	\"2\"	View user information"
 					+ "\n	\"3\"	Create post"
@@ -30,7 +30,7 @@ public class Administrator extends User {
 					+ "\n	\"9\"	View courses"
 					+ "\n	\"10\"	View classrooms"
 					+ "\n	\"11\"	View users"
-					+ "\n	\"q\"	Logout");
+					+ "\n	\"q\"	Logout\n");
 			
 	    	System.out.print("Enter Command: ");
 	    	String input = Database.scanner.next();
@@ -146,9 +146,9 @@ public class Administrator extends User {
 		
 		while (true) {
 			if (state == 0) { // listening for first name
-				System.out.println("Press \"q\" to exit.");
+				System.out.println("Enter \"q\" to exit.");
 				System.out.print("Enter first name: ");
-				firstName = Database.scanner.nextLine();
+				firstName = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (firstName.equals("q")) {
@@ -159,9 +159,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 1) { // listening for last name
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter last name: ");
-				lastName = Database.scanner.nextLine();
+				lastName = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (lastName.equals("q")) {
@@ -173,9 +173,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 2) { // listening for username
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter username: ");
-		        username = Database.scanner.nextLine();
+		        username = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (username.equals("q")) {
@@ -192,9 +192,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 3) { // listening for password
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter password: ");
-		        password = Database.scanner.nextLine();
+		        password = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (password.equals("q")) {
@@ -211,13 +211,14 @@ public class Administrator extends User {
 			}
 			
 			if (state == 4) { // listening for month
-				System.out.println("Press \"0\" to go back.");
+				System.out.println("Enter \"0\" to go back.");
 				System.out.println("Enter the student's enrollment date.");
 				System.out.print("Enter month (#): ");
-		        month = Database.scanner.nextInt();
+		        month = InputHandler.promptNumber();
 		        System.out.println("");
 				
 		        if (month == 0) {
+		        	Database.scanner.nextLine();
 					state--;
 					continue;
 				}
@@ -231,12 +232,13 @@ public class Administrator extends User {
 			}
 			
 			if (state == 5) { // listening for day
-				System.out.println("Press \"0\" to go back.");
+				System.out.println("Enter \"0\" to go back.");
 				System.out.print("Enter day (#): ");
-		        day = Database.scanner.nextInt();
+		        day = InputHandler.promptNumber();
 		        System.out.println("");
 				
 		        if (day == 0) {
+		        	Database.scanner.nextLine();
 					state--;
 					continue;
 				}
@@ -255,18 +257,19 @@ public class Administrator extends User {
 			}
 			
 			if (state == 6) { // listening for year
-				System.out.println("Press \"0\" to go back.");
+				System.out.println("Enter \"0\" to go back.");
 				System.out.print("Enter year (####): ");
-		        month = Database.scanner.nextInt();
+		        year = InputHandler.promptNumber();
 		        System.out.println("");
 				
-		        if (month == 0) {
+		        if (year == 0) {
+		        	Database.scanner.nextLine();
 					state--;
 					continue;
 				}
 		        
-		        if (month <= 1970) {
-					System.out.println("Year must be greater than 1970.");
+		        if (year < 1970) {
+					System.out.println("Year must be greater than 1969.");
 					continue;
 				}
 		        
@@ -277,7 +280,7 @@ public class Administrator extends User {
 			}
 		}
 		
-		System.out.println("Exiting addStudentAccount method.");
+		System.out.println("Exiting addStudentAccount method...");
 	}
 	
 	public static void addTeacherAccount(String firstName, String lastName, String username, String password) {
@@ -296,9 +299,9 @@ public class Administrator extends User {
 		
 		while (true) {
 			if (state == 0) { // listening for first name
-				System.out.println("Press \"q\" to exit.");
+				System.out.println("Enter \"q\" to exit.");
 				System.out.print("Enter first name: ");
-				firstName = Database.scanner.nextLine();
+				firstName = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (firstName.equals("q")) {
@@ -309,9 +312,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 1) { // listening for last name
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter last name: ");
-				lastName = Database.scanner.nextLine();
+				lastName = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (lastName.equals("q")) {
@@ -323,9 +326,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 2) { // listening for username
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter username: ");
-		        username = Database.scanner.nextLine();
+		        username = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (username.equals("q")) {
@@ -342,9 +345,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 3) { // listening for password
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter password: ");
-		        password = Database.scanner.nextLine();
+		        password = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (password.equals("q")) {
@@ -362,7 +365,7 @@ public class Administrator extends User {
 			}
 		}
 		
-		System.out.println("Exiting addTeacherAccount method."); 
+		System.out.println("Exiting addTeacherAccount method..."); 
 	}
 	
 	public static void addAdminAccount(String firstName, String lastName, String username, String password) {
@@ -377,12 +380,13 @@ public class Administrator extends User {
 		String password = "";
 		
 		int state = 0;
+		Database.scanner.nextLine();
 		
 		while (true) {
 			if (state == 0) { // listening for first name
-				System.out.println("Press \"q\" to exit.");
+				System.out.println("Enter \"q\" to exit.");
 				System.out.print("Enter first name: ");
-				firstName = Database.scanner.nextLine();
+				firstName = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (firstName.equals("q")) {
@@ -393,9 +397,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 1) { // listening for last name
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter last name: ");
-				lastName = Database.scanner.nextLine();
+				lastName = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (lastName.equals("q")) {
@@ -407,9 +411,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 2) { // listening for username
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter username: ");
-		        username = Database.scanner.nextLine();
+		        username = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (username.equals("q")) {
@@ -426,9 +430,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 3) { // listening for password
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter password: ");
-		        password = Database.scanner.nextLine();
+		        password = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (password.equals("q")) {
@@ -446,7 +450,7 @@ public class Administrator extends User {
 			}
 		}
 		
-		System.out.println("Exiting addAdministratorAccount method."); 
+		System.out.println("Exiting addAdministratorAccount method..."); 
 	}
 	
 	public static void addCourse() {
@@ -469,9 +473,9 @@ public class Administrator extends User {
 		
 		while (true) {
 			if (state == 0) { // listening for confirmation
-				System.out.println("Press \"q\" to exit.");
+				System.out.println("Enter \"q\" to exit.");
 				System.out.print("Is there a time assigned to this course? Enter (Y/N): ");
-				confirmation = Database.scanner.nextLine();
+				confirmation = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (confirmation.equals("q")) {
@@ -482,9 +486,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 1) { // listening for course name
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter name of course: ");
-				name = Database.scanner.nextLine();
+				name = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (term.equals("q")) {
@@ -496,9 +500,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 2) { // listening for teacher name
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter username of teacher: ");
-		        teacherUsername = Database.scanner.nextLine();
+		        teacherUsername = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (teacherUsername.equals("q")) {
@@ -522,9 +526,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 3) { // listening for term
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter term: ");
-		        term = Database.scanner.nextLine();
+		        term = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (term.equals("q")) {
@@ -533,7 +537,14 @@ public class Administrator extends User {
 				}
 		        
 		        if (confirmation.equals("N")) {
-		        	addCourse(name, teacherObject, term);
+		        	Boolean success = addCourse(name, teacherObject, term);
+		        	
+		        	if (!success) {
+		        		System.out.println("There was an error trying to add class, reverting to previous option.");
+		        		state--;
+						continue;
+		        	}
+		        	
 		        	break;
 		        }
 		        
@@ -541,9 +552,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 4) { // listening for classroom
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter classroom: ");
-		        classroom = Database.scanner.nextLine();
+		        classroom = InputHandler.promptLine();
 		        System.out.println("");
 				
 		        if (term.equals("q")) {
@@ -561,12 +572,13 @@ public class Administrator extends User {
 			}
 			
 			if (state == 5) { // listening for start Hour
-				System.out.println("Press \"-1\" to go back.");
+				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter start hour (0-23): ");
-		        startHour = Database.scanner.nextInt();
+		        startHour = InputHandler.promptNumber();
 		        System.out.println("");
 				
 		        if (startHour == -1) {
+		        	Database.scanner.nextLine();
 					state--;
 					continue;
 				}
@@ -580,9 +592,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 6) { // listening for start Minute
-				System.out.println("Press \"-1\" to go back.");
+				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter start minute (0-59): ");
-		        startMin = Database.scanner.nextInt();
+		        startMin = InputHandler.promptNumber();
 		        System.out.println("");
 				
 		        if (startMin == -1) {
@@ -599,9 +611,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 7) { // listening for end Hour
-				System.out.println("Press \"-1\" to go back.");
+				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter start hour (0-23): ");
-		        endHour = Database.scanner.nextInt();
+		        endHour = InputHandler.promptNumber();
 		        System.out.println("");
 				
 		        if (endHour == -1) {
@@ -618,9 +630,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 8) { // listening for end Minute
-				System.out.println("Press \"-1\" to go back.");
+				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter start minute (0-59): ");
-		        endMin = Database.scanner.nextInt();
+		        endMin = InputHandler.promptNumber();
 		        System.out.println("");
 				
 		        if (endMin == -1) {
@@ -637,9 +649,9 @@ public class Administrator extends User {
 			}
 			
 			if (state == 9) { // listening for day of the week
-				System.out.println("Press \"-1\" to go back.");
+				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter the number corresponding to the day of the week (1 = SUNDAY, ..., 7 = SATURDAY) [Enter 0 to confirm]: ");
-		        dayOfTheWeek = Database.scanner.nextInt();
+		        dayOfTheWeek = InputHandler.promptNumber();
 		        System.out.println("");
 				
 		        switch (dayOfTheWeek) {
@@ -763,7 +775,7 @@ public class Administrator extends User {
 			}
 		}
 		
-		System.out.println("Exiting addAdministratorAccount method."); 
+		System.out.println("Exiting addAdministratorAccount method..."); 
 	}
 	
 	public static boolean addCourse(String name, Teacher teacher, String term, Classroom classroom, LocalTime startTime, LocalTime endTime, ArrayList<DayOfWeek> day) {
@@ -793,9 +805,9 @@ public class Administrator extends User {
 		Database.scanner.nextLine();
 		
 		while (true) {
-			System.out.println("Press \"q\" to exit.");
+			System.out.println("Enter \"q\" to exit.");
 			System.out.print("Enter username to remove: ");
-			username = Database.scanner.nextLine();
+			username = InputHandler.promptLine();
 			System.out.println("");
 			
 			if (username.equals("q")) {
@@ -813,8 +825,8 @@ public class Administrator extends User {
 			}
 			
 			while (!confirmation.equals("N") && !confirmation.equals("Y")) {
-				System.out.print("Are you sure you want to remove " + username + "? Enter (Y to confirm/N to return): ");
-				confirmation = Database.scanner.nextLine();
+				System.out.print("Are you sure you want to remove " + username + "? Enter (Y to confirm/N to go back): ");
+				confirmation = InputHandler.promptLine();
 				System.out.println("");
 				
 				if (!confirmation.equals("N") && !confirmation.equals("Y")) {
@@ -844,10 +856,10 @@ public class Administrator extends User {
 		
 		while (true) {
 	    	if (state == 0) { // listening for type of post
-	    		System.out.println("Press \"q\" to exit.");
+	    		System.out.println("Enter \"q\" to exit.");
 				System.out.print("Enter type (message or announcement): ");
 				
-		        postType = Database.scanner.nextLine();
+		        postType = InputHandler.promptLine();
 		        System.out.println("");
 		        
 		        if (postType.equals("q")) {
@@ -859,13 +871,18 @@ public class Administrator extends User {
 		        	continue;
 		        }
 		        
+		        if (postType.equals("announcement")) {
+		        	state = 2;
+		        	continue;
+		        }
+		        
 		        state++;
 			}
 	    	
 			if (state == 1) { // listening for receiver (by Username)
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter username to send to: ");
-				receiverUsername = Database.scanner.nextLine();
+				receiverUsername = InputHandler.promptLine();
 				System.out.println();
 				
 				if (receiverUsername.equals("q")) {
@@ -884,18 +901,28 @@ public class Administrator extends User {
 			}
 			
 			if (state == 2) { // listening for subject
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter subject: ");
-				subject = Database.scanner.nextLine();
+				subject = InputHandler.promptLine();
 				System.out.println("");
+				
+				if (subject.equals("q")) {
+					if (postType.equals("announcement")) {
+			        	state = 0;
+			        	continue;
+			        }
+					
+					state--;
+					continue;
+				}
 				
 				state++;
 			}
 			
 			if (state == 3) { // listening for message
-				System.out.println("Press \"q\" to go back.");
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter message: ");
-		        message = Database.scanner.nextLine();
+		        message = InputHandler.promptLine();
 		        System.out.println("");
 		        
 		        if (message.equals("q")) {
@@ -919,6 +946,21 @@ public class Administrator extends User {
 			}
 		}
 		
-		System.out.println("Exiting createPost method.\n");
+		System.out.println("Exiting createPost method...");
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Administrator)) {
+			return false;
+		}
+		
+		Administrator admin = (Administrator) object;
+		
+		if (admin.toString().equals(this.toString())) {
+			return true;
+		}
+		
+		return false;
 	}
 }

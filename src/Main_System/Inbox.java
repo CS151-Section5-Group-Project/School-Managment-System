@@ -28,7 +28,7 @@ public class Inbox {
 	
 	public void deletePost(Post post) {
 		if (!received.contains(post)) {
-			System.out.println("Post not found.");
+			System.out.println("Post not found.\n");
 			return;
 		}
 		

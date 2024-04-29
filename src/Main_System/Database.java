@@ -71,6 +71,7 @@ public final class Database {
 			return false;
 		}
 		
+		System.out.println("Account added: \n" + user.toString() + "\n");
 		users.put(user.getUserName(), user);
 		return true;
 	}
@@ -83,6 +84,7 @@ public final class Database {
 			}
 		}
 		
+		System.out.println("Course added: \n" + course.toString() + "\n");
 		courses.add(course);
 		return true;
 	}
@@ -93,6 +95,7 @@ public final class Database {
 			return false;
 		}
 		
+		System.out.println("Classroom added: \n" + classroom.toString() + "\n");
 		classrooms.put(classroom.getName(), classroom);
 		return true;
 	}

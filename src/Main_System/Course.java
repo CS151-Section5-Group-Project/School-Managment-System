@@ -19,14 +19,14 @@ public class Course {
 	private HashMap<Student, ArrayList<Assignment>> assignments; // the assignment given
 	
 	public Course() { // default constructor
-		this.name = "";
-		this.teacher = null;
-		this.term = "";
-		this.classroom = null;
-		this.startTime = null;
-		this.endTime = null;
-		this.days = new ArrayList<DayOfWeek>();
-		this.students = new ArrayList<Student>();
+		name = "";
+		teacher = null;
+		term = "";
+		classroom = null;
+		startTime = null;
+		endTime = null;
+		days = new ArrayList<DayOfWeek>();
+		students = new ArrayList<Student>();
 	}
 	
 	// constructor for classes with a time
@@ -302,6 +302,23 @@ public class Course {
 		students.remove(student);
 		assignments.remove(student);
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Course)) {
+			return false;
+		}
+		
+		Course course = (Course) object;
+		
+		if (course.toString().equals(this.toString())) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 	
 	@Override
 	public String toString() {

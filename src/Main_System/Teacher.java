@@ -12,19 +12,20 @@ public class Teacher extends User{
 	
 	public Teacher(String firstName, String lastName, String userName, String password) {
 		super(firstName, lastName, userName, password);
+		courses = new ArrayList<Course>();
 	}
 	
 	@Override
 	public void onLogin() {
-		System.out.println("Enter one of the following commands: "
-				+ "\n	\"1\"	Do command 1"
-				+ "\n	\"2\"	Do command 2"
-				+ "\n	\"3\"	Do command 3"
-				+ "\n	\"4\"	Do command 4"
-				+ "\n	\"q\"	Logout");
-		
 		try {
 		    while (true) {
+		    	System.out.println("\nEnter one of the following commands:\n"
+						+ "\n	\"1\"	Do command 1"
+						+ "\n	\"2\"	Do command 2"
+						+ "\n	\"3\"	Do command 3"
+						+ "\n	\"4\"	Do command 4"
+						+ "\n	\"q\"	Logout\n");
+		    	
 		    	System.out.print("Enter Command: ");
 		    	String input = Database.scanner.next();
 		    	System.out.println();
@@ -194,5 +195,20 @@ public class Teacher extends User{
 		} finally {
 		    System.out.println("Exiting creating post mode");
 		}
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Teacher)) {
+			return false;
+		}
+		
+		Teacher teacher = (Teacher) object;
+		
+		if (teacher.toString().equals(this.toString())) {
+			return true;
+		}
+		
+		return false;
 	}
 }

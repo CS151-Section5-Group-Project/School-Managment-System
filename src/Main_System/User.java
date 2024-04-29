@@ -169,4 +169,7 @@ public abstract class User {
 	}
 
 	public abstract void onLogin() throws CloneNotSupportedException;
+	
+	@Override
+	public abstract boolean equals(Object object);
 }
