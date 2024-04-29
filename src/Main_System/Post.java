@@ -46,6 +46,10 @@ public class Post implements Cloneable{
 		return createdAt;
 	}
 	
+	public ArrayList<Post> getReplies() {
+		return replies;
+	}
+	
 	public String getType() {
 		return type;
 	}

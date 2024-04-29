@@ -4,7 +4,9 @@ import java.time.LocalDate;
 
 public class Assignment {
 	private Student owner;
+	private Course course;
 	private String name;
+	private String description;
 	private int totalScore;
 	private int gradedScore;
 	private boolean graded;
@@ -13,7 +15,9 @@ public class Assignment {
 	// default constructor
 	public Assignment() {
 		owner = null;
+		course = null;
 		name = "";
+		description = "";
 		totalScore = 0;
 		gradedScore = 0;
 		graded = false;
@@ -21,9 +25,11 @@ public class Assignment {
 	}
 	
 	// constructor for ungraded assignments
-	public Assignment(Student owner, String name, int totalScore) {
+	public Assignment(Student owner, Course course, String name, String description, int totalScore) {
 		this.owner = owner;
+		this.course = null;
 		this.name = name;
+		this.description = description;
 		this.totalScore = totalScore;
 		this.gradedScore = 0;
 		graded = false;
@@ -31,8 +37,9 @@ public class Assignment {
 	}
 	
 	// constructor for graded assignments
-	public Assignment(Student owner, String name, int totalScore, int gradedScore) {
+	public Assignment(Student owner, Course course, String name, String description, int totalScore, int gradedScore) {
 		this.name = name;
+		this.course = course;
 		this.totalScore = totalScore;
 		this.gradedScore = 0;
 		graded = true;
@@ -67,7 +74,10 @@ public class Assignment {
 	@Override
 	public String toString() {
 		String result = "Assignment Owner: " + owner.getFullName() +
+				"\nCourse: " + course.getName() + 
+				"\nTeacher: " + course.getTeacher().getFullName() + 
 				"\nAssignment Name: " + name + 
+				"\nAssignment Description: " + description + 
 				"\nAssignment Total Score: " + totalScore +
 				"\nAssignment Graded Score: ";
 		

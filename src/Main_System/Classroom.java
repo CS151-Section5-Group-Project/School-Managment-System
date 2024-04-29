@@ -10,11 +10,15 @@ public class Classroom {
 	public Classroom() {
 		name = ""; // Name of classroom
 		capacity = 0; // Size of classroom
+		
+		Database.addClassroom(this);
 	}
 	
 	public Classroom(String name, int capacity) {
 		this.name = name;
 		this.capacity = capacity;
+		
+		Database.addClassroom(this);
 	}
 	
 	public ArrayList<Course> getCourses() {

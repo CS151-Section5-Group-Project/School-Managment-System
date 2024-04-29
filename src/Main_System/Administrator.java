@@ -9,10 +9,14 @@ import java.util.ArrayList;
 public class Administrator extends User {
 	public Administrator() {
 		super();
+		
+		Database.addUser(this);
 	}
 	
 	public Administrator(String firstName, String lastName, String userName, String password) {
 		super(firstName, lastName, userName, password);
+		
+		Database.addUser(this);
 	}
 	
 	@Override
@@ -51,7 +55,6 @@ public class Administrator extends User {
 	    		 createPost();
 	    	     break; 
 	    	  }
-	    	     
 		    	     
 	    	  case "4": {
 	    		 addStudentAccount();
@@ -60,16 +63,14 @@ public class Administrator extends User {
 	    	     
 	    	  
 	    	  case "5": {
-	    		  
-	    	  }
-	    	     addTeacherAccount();
+	    		 addTeacherAccount();
 	    	     break;
+	    	  }
 		    	     
 	    	  case "6": {
 	    		 addAdminAccount();
 	    	     break; 
 	    	  }
-	    	     
 	    	    
 	    	  case "7": {
 	    		 addCourse();
@@ -98,7 +99,7 @@ public class Administrator extends User {
 	    	  }
 	    	  
 	    	  case "11": {
-	    		  System.out.println("All users:\n");
+	    		 System.out.println("All users:\n");
 	    		  
 	    		 for (Entry<String, User> entry: Database.getUsers().entrySet()) {
 	    			 System.out.println(entry.getValue().toString() + "\n");
@@ -127,8 +128,7 @@ public class Administrator extends User {
 	}
 	
 	public static void addStudentAccount(String firstName, String lastName, String username, String password, LocalDate enrollmentDate) {
-		Student student = new Student(firstName, lastName, username, password, enrollmentDate);
-		Database.addAccount(student);
+		new Student(firstName, lastName, username, password, enrollmentDate);
 	}
 	
 	public void addStudentAccount() {
@@ -284,8 +284,7 @@ public class Administrator extends User {
 	}
 	
 	public static void addTeacherAccount(String firstName, String lastName, String username, String password) {
-		Teacher teacher = new Teacher(firstName, lastName, username, password);
-		Database.addAccount(teacher);
+		new Teacher(firstName, lastName, username, password);
 	}
 	
 	public void addTeacherAccount() {
@@ -369,8 +368,7 @@ public class Administrator extends User {
 	}
 	
 	public static void addAdminAccount(String firstName, String lastName, String username, String password) {
-		Administrator administrator = new Administrator(firstName, lastName, username, password);
-		Database.addAccount(administrator);
+		new Administrator(firstName, lastName, username, password);
 	}
 	
 	public void addAdminAccount() {
@@ -491,7 +489,7 @@ public class Administrator extends User {
 				name = InputHandler.promptLine();
 				System.out.println("");
 				
-				if (term.equals("q")) {
+				if (name.equals("q")) {
 					state--;
 					continue;
 				}
@@ -780,12 +778,12 @@ public class Administrator extends User {
 	
 	public static boolean addCourse(String name, Teacher teacher, String term, Classroom classroom, LocalTime startTime, LocalTime endTime, ArrayList<DayOfWeek> day) {
 		Course course = new Course(name, teacher, term, classroom, startTime, endTime, day);
-		return Database.addCourse(course);
+		return Database.containCourse(course);
 	}
 	
 	public static boolean addCourse(String name, Teacher teacher, String term) {
 		Course course = new Course(name, teacher, term);
-		return Database.addCourse(course);
+		return Database.containCourse(course);
 	}
 	
 	public Post sendAnnouncement(String subject, String message) throws CloneNotSupportedException {
@@ -800,11 +798,11 @@ public class Administrator extends User {
 	
 	public void removeUser() {
 		String username = "";
-		String confirmation = "";
 		
 		Database.scanner.nextLine();
 		
 		while (true) {
+			String confirmation = "";
 			System.out.println("Enter \"q\" to exit.");
 			System.out.print("Enter username to remove: ");
 			username = InputHandler.promptLine();

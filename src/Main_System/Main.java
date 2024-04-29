@@ -14,7 +14,7 @@ public class Main {
 	    	
 	    	while (currentUser == null) {
 	    		System.out.print("Enter username: ");
-				username = Database.scanner.nextLine();
+				username = InputHandler.promptLine();
 				System.out.println();
 				
 				if (username.equals("q")) {
@@ -36,7 +36,7 @@ public class Main {
 	    	
 	    	while (!password.equals(currentUser.getPassword())) {
 	    		System.out.print("Enter password: ");
-				password = Database.scanner.nextLine();
+				password = InputHandler.promptLine();
 				System.out.println();
 				
 				if (password.equals("q")) {

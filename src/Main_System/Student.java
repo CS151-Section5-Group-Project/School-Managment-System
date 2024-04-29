@@ -26,6 +26,8 @@ public class Student extends User {
 		enrollmentDate = null;
 		courseHistory = new HashMap<Course, Double>();
 		graduationStatus = false;
+		
+		Database.addUser(this);
 	}
 	
 	public Student(String firstName, String lastName, String userName, String password, LocalDate enrollmentDate) {
@@ -33,11 +35,118 @@ public class Student extends User {
 		this.enrollmentDate = enrollmentDate;
 		this.courseHistory = new HashMap<Course, Double>();
 		this.graduationStatus = false;
+		
+		Database.addUser(this);
 	}
 	
 	@Override
 	public void onLogin() {
-		// TODO Auto-generated method stub
+		while (true) {
+			System.out.println("\nEnter one of the following commands:\n"
+					+ "\n	\"1\"	View inbox"
+					+ "\n	\"2\"	View user information"
+					+ "\n	\"3\"	Create post"
+					+ "\n	\"4\"	View all assignments"
+					+ "\n	\"4\"	View an assignment"
+					+ "\n	\"5\"	View GPA"
+					+ "\n	\"6\"	View graduation status"
+					+ "\n	\"7\"	View number of units taken"
+					+ "\n	\"8\"	View courses taken"
+					+ "\n	\"9\"	View schedule" // possibly an optional feature
+					+ "\n	\"10\"	Add course"
+					+ "\n	\"11\"	Drop course"
+					+ "\n	\"q\"	Logout\n");
+			
+	    	System.out.print("Enter Command: ");
+	    	String input = Database.scanner.next();
+	    	System.out.println();
+	    	
+	    	switch(input) {
+	    	  case "1": {
+	    		 viewInbox();
+	    	     break;
+	    	  }
+	    	     
+	    	  case "2": {
+	    		 System.out.println(this.toString());
+		    	 break;
+	    	  }
+		    	     
+//	    	  case "3": {
+//	    		 createPost();
+//	    	     break; 
+//	    	  }
+//		    	     
+//	    	  case "4": {
+//	    		 addStudentAccount();
+//	    	     break; 
+//	    	  }
+//	    	  
+//	    	  case "5": {
+//	    		  
+//	    	  }
+//	    	     addTeacherAccount();
+//	    	     break;
+//		    	     
+//	    	  case "6": {
+//	    		 addAdminAccount();
+//	    	     break; 
+//	    	  }
+//	    	     
+//	    	    
+//	    	  case "7": {
+//	    		 addCourse();
+//	    	     break; 
+//	    	  }
+//	    	     
+//	    	     
+//	    	  case "8": {
+//	    		 removeUser();
+//	    	     break;
+//	    	  }
+	    	     
+	    	  case "9": {
+	    		 if (Database.getCourses().isEmpty()) {
+	    			 System.out.println("No courses to display.\n");
+	    			 break;
+	    		 }
+	    		 
+	    		 System.out.println("Courses: " + Database.getCourses().toString());
+	    	     break;
+	    	  }
+	    	  
+	    	  case "10": {
+	    		 System.out.println("Classrooms: " + Database.getClassrooms().toString());
+	    	     break;
+	    	  }
+	    	  
+	    	  case "11": {
+	    		  System.out.println("All users:\n");
+	    		  
+	    		 for (Entry<String, User> entry: Database.getUsers().entrySet()) {
+	    			 System.out.println(entry.getValue().toString() + "\n");
+    			 }
+	    		 
+	    	     break;
+	    	  }
+	    	     
+	    	  case "q": { // Exit
+	    		 System.out.println("Logging out...");
+	    	     break;
+	    	  }
+	    		 
+	    	     
+	    	  default: {
+	    		 System.out.println("Not a valid command."); 
+	    	  }
+	    	}
+	    	
+	    	if (input.equals("q")) {
+	    		break;
+	    	}
+		}
+		
+		System.out.println("Logging out of " + getUserName() + "...");
 	}
 	
 	/*
@@ -92,8 +201,14 @@ public class Student extends User {
 	 * 
 	 */
 	
-	public void addCourse(Course course) {
+	public boolean addCourse(Course course) {
+		if (courseHistory.containsKey(course)) {
+			System.out.println("Course already enrolled");
+			return false;
+		}
+		
 		courseHistory.put(course, 4.0);
+		return true;
 	}
 	
 	public void dropCourse(Course course) {
