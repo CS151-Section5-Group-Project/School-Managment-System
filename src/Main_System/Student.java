@@ -40,21 +40,21 @@ public class Student extends User {
 	}
 	
 	@Override
-	public void onLogin() {
+	public void onLogin() throws CloneNotSupportedException {
 		while (true) {
 			System.out.println("\nEnter one of the following commands:\n"
 					+ "\n	\"1\"	View inbox"
 					+ "\n	\"2\"	View user information"
 					+ "\n	\"3\"	Create post"
 					+ "\n	\"4\"	View all assignments"
-					+ "\n	\"4\"	View an assignment"
-					+ "\n	\"5\"	View GPA"
-					+ "\n	\"6\"	View graduation status"
-					+ "\n	\"7\"	View number of units taken"
-					+ "\n	\"8\"	View courses taken"
-					+ "\n	\"9\"	View schedule" // possibly an optional feature
-					+ "\n	\"10\"	Add course"
-					+ "\n	\"11\"	Drop course"
+					+ "\n	\"5\"	View an assignment"
+					+ "\n	\"6\"	View GPA"
+					+ "\n	\"7\"	View graduation status"
+					+ "\n	\"8\"	View number of units taken"
+					+ "\n	\"9\"	View courses taken"
+					+ "\n	\"10\"	View schedule" // possibly an optional feature
+					+ "\n	\"11\"	Add course"
+					+ "\n	\"12\"	Drop course"
 					+ "\n	\"q\"	Logout\n");
 			
 	    	System.out.print("Enter Command: ");
@@ -72,38 +72,45 @@ public class Student extends User {
 		    	 break;
 	    	  }
 		    	     
-//	    	  case "3": {
-//	    		 createPost();
-//	    	     break; 
-//	    	  }
-//		    	     
-//	    	  case "4": {
-//	    		 addStudentAccount();
-//	    	     break; 
-//	    	  }
-//	    	  
-//	    	  case "5": {
-//	    		  
-//	    	  }
-//	    	     addTeacherAccount();
-//	    	     break;
-//		    	     
-//	    	  case "6": {
-//	    		 addAdminAccount();
-//	    	     break; 
-//	    	  }
-//	    	     
-//	    	    
-//	    	  case "7": {
-//	    		 addCourse();
-//	    	     break; 
-//	    	  }
-//	    	     
-//	    	     
-//	    	  case "8": {
-//	    		 removeUser();
-//	    	     break;
-//	    	  }
+	    	  case "3": {
+	    		 createPost();
+	    	     break; 
+	    	  }
+		    	     
+	    	  case "4": {
+	    		  if (Course.getAssignments().isEmpty()) {
+	    			  System.out.println("No assignments to display.\n");
+	    			  break;
+		    		 }
+	    		  System.out.println("Assignments: " + Course.getAssignments().toString());
+	    		  break;
+	    	  }
+	    	  
+	    	  case "5": {
+	    		  if (Course.getAssignments().isEmpty()) {
+	    			  System.out.println("No assignments to display.\n");
+	    			  break;
+	    		  }
+	    		  System.out.println("Name of Assignment:");
+	    		  String assign = Database.scanner.nextLine();
+			      System.out.println();
+			      Course.getAllAssignmentOfName(assign);
+			      break;
+	    	  }
+	    	  case "6": {
+	    		 System.out.println(getGPA());
+	    	     break; 
+	    	  }    
+	    	  case "7": {
+	    		 getGraduationStatus();
+	    	     break; 
+	    	  }
+	    	     
+	    	     
+	    	  case "8": {
+	    		 System.out.println(getUnit());
+	    	     break;
+	    	  }
 	    	     
 	    	  case "9": {
 	    		 if (Database.getCourses().isEmpty()) {
@@ -111,14 +118,16 @@ public class Student extends User {
 	    			 break;
 	    		 }
 	    		 
-	    		 System.out.println("Courses: " + Database.getCourses().toString());
+	    		 System.out.println("Courses: " + courseHistory.toString());
 	    	     break;
 	    	  }
 	    	  
-	    	  case "10": {
-	    		 System.out.println("Classrooms: " + Database.getClassrooms().toString());
-	    	     break;
-	    	  }
+//	    	  case "10": {
+//	    		 for (Entry<Course, Double> courses : courseHistory.entrySet()) {
+//	    			 System.out.println("Classrooms: " + courseHistory.toString());
+//	    			 break;
+//	    		 }
+//	    	  }
 	    	  
 	    	  case "11": {
 	    		  System.out.println("All users:\n");
