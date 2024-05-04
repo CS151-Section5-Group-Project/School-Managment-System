@@ -117,8 +117,9 @@ public abstract class User {
 			if (state == 0) { // listening for sender
 				System.out.println("Press \"q\" to exit.");
 				System.out.print("Enter username to send to: ");
-				receiver = Database.scanner.nextLine();
-				System.out.println("\n");
+				
+				receiver = InputHandler.promptLine();
+				System.out.println("");
 				
 				if (receiver.equals("q")) {
 					break;
@@ -138,9 +139,9 @@ public abstract class User {
 				System.out.println("Press \"q\" to go back.");
 				System.out.print("Enter subject: ");
 				subject = Database.scanner.nextLine();
-				System.out.println("\n");
+				System.out.println();
 				
-				if (receiver.equals("q")) {
+				if (subject.equals("q")) {
 					state--;
 					continue;
 				}
@@ -152,9 +153,9 @@ public abstract class User {
 				System.out.println("Press \"q\" to go back.");
 				System.out.print("Enter message:");
 		        message = Database.scanner.nextLine();
-		        System.out.println("\n");
+		        System.out.println();
 				
-		        if (receiver.equals("q")) {
+		        if (message.equals("q")) {
 					state--;
 					continue;
 				}
