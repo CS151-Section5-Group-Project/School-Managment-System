@@ -6,7 +6,7 @@
 > - Leo Truong
 > - Brian Luong
 >
-Instructions:
+## Instructions
 Clone Repository and run the following commands: 
 ```
 javac Main.java
