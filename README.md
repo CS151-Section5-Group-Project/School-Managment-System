@@ -6,4 +6,10 @@
 > - Leo Truong
 > - Brian Luong
 >
->  Last Modified: April 11, 2024 7:44 PM PST
+> Instructions:
+Clone Repository and run the following commands: 
+```
+javac Main.java
+java Main.java
+```
+
