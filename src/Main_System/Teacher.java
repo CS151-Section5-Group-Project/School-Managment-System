@@ -501,27 +501,43 @@ public class Teacher extends User{
 		
 		while (true) {
 	    	if (state == 0) { // listening for type of post
+	    		System.out.println("Enter \"q\" to exit.");
 				System.out.print("Enter type (message or announcement): ");
-		        postType = Database.scanner.nextLine();
-		        System.out.println("\n");
+				
+				postType = InputHandler.promptLine();
+		        System.out.println("");
 		        
-		        if (postType == "message") {
+		        if (postType.equals("q")) {
+					break;
+				}
+		        
+		        if (!postType.equals("message") && !postType.equals("announcement")) {
+		        	System.out.println("The following choice is not valid. Try again.");
+		        	continue;
+		        }
+		        
+		        if (postType.equals("message")) {
 		        	state = 1;
 		        	continue;
 		        }
 		        
-		        if (postType == "announcement") {
+		        if (postType.equals("announcement")) {
 		        	state = 2;
 		        	continue;
 		        }
 		        
-		        System.out.println("The following choice is not valid. Try again.");
 			}
 	    	
 			if (state == 1) { // listening for receiver (by username)
+				System.out.println("Enter \"q\" to exit.");
 				System.out.print("Enter username to send to: ");
 				receiverUsername = Database.scanner.nextLine();
-				System.out.println("\n");
+				System.out.println();
+				
+				if (receiverUsername.equals("q")) {
+					state--;
+					continue;
+				}
 				
 				if (!Database.getUsers().containsKey(receiverUsername)) { // check if user exist
 					System.out.println("User does not exist.");
@@ -530,19 +546,29 @@ public class Teacher extends User{
 				
 				receiverObjectFound = Database.getUsers().get(receiverUsername);
 				
-				state++;
+				state += 2;
 			}
 			
 			if (state == 2) { // listening for course (by name)
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter course to send to: ");
 				courseName = Database.scanner.nextLine();
-				System.out.println("\n");
+				System.out.println("");
+				
+				if (courseName.equals("q")) {
+					if (postType.equals("announcement")) {
+			        	state = 0;
+			        	continue;
+			        }
+					
+					state--;
+					continue;
+				}
 				
 				for (Course courseObject: Database.getCourses()) {
-					if (courseObject.getName() == courseName) {
+					if (courseObject.getName().equals(courseName)) {
 						if (courseObject.getTeacher() == this) {
 							courseObjectFound = courseObject;
-							state++;
 							break;
 						}
 					}
@@ -557,26 +583,41 @@ public class Teacher extends User{
 			}
 			
 			if (state == 3) { // listening for subject
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter subject: ");
 				subject = Database.scanner.nextLine();
 				System.out.println();
+				
+				if (subject.equals("q")) {
+					if (postType.equals("announcement")) {
+			        	state--;
+			        	continue;
+			        }
+					
+					state = 1;
+					continue;
+				}
 				
 				state++;
 			}
 			
 			if (state == 4) { // listening for message
+				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter message:");
-		        message = Database.scanner.nextLine();
+		        
+				message = Database.scanner.nextLine();
 		        System.out.println();
 		        
-		        if (postType == "message") {
+		        
+		        
+		        if (postType.equals("message")) {
 		        	Post post = sendPost(receiverObjectFound, subject, message);
 					
 					System.out.println("Message sent: \n" + post);
 		        	break;
 		        }
 		        
-		        if (postType == "announcement") {
+		        if (postType.equals("announcement")) {
 		        	Post post = sendAnnouncement(courseObjectFound, subject, message);
 					
 					System.out.println("Message sent: \n" + post);
