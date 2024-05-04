@@ -38,7 +38,7 @@ public class Teacher extends User{
 					+ "\n	\"q\"	Logout\n");
 	    	
 	    	System.out.print("Enter Command: ");
-	    	String input = InputHandler.promptLine();
+	    	String input = Database.scanner.next();
 	    	System.out.println();
 	    	
 	    	switch(input) {
@@ -83,15 +83,9 @@ public class Teacher extends User{
 	    	     break;
 	    	  }
 	    	     
-//	    	  case "9": {
-//	    		 if (Database.getCourses().isEmpty()) {
-//	    			 System.out.println("No courses to display.\n");
-//	    			 break;
-//	    		 }
-//	    		 
-//	    		 System.out.println("Courses: " + Database.getCourses().toString());
-//	    	     break;
-//	    	  }
+	    	  case "9": {
+	    		  createAssignment();
+	    	  }
 //	    	  
 //	    	  case "10": {
 //	    		 System.out.println("Classrooms: " + Database.getClassrooms().toString());
