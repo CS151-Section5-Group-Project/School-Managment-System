@@ -77,26 +77,26 @@ public class Student extends User {
 	    	     break; 
 	    	  }
 		    	     
-	    	  case "4": {
-	    		  if (Course.getAssignments().isEmpty()) {
-	    			  System.out.println("No assignments to display.\n");
-	    			  break;
-		    		 }
-	    		  System.out.println("Assignments: " + Course.getAssignments().toString());
-	    		  break;
-	    	  }
+//	    	  case "4": {
+//	    		  if (Course.getAssignments().isEmpty()) {
+//	    			  System.out.println("No assignments to display.\n");
+//	    			  break;
+//		    		 }
+//	    		  System.out.println("Assignments: " + Course.getAssignments().toString());
+//	    		  break;
+//	    	  }
 	    	  
-	    	  case "5": {
-	    		  if (Course.getAssignments().isEmpty()) {
-	    			  System.out.println("No assignments to display.\n");
-	    			  break;
-	    		  }
-	    		  System.out.println("Name of Assignment:");
-	    		  String assign = Database.scanner.nextLine();
-			      System.out.println();
-			      Course.getAllAssignmentOfName(assign);
-			      break;
-	    	  }
+//	    	  case "5": {
+//	    		  if (Course.getAssignments().isEmpty()) {
+//	    			  System.out.println("No assignments to display.\n");
+//	    			  break;
+//	    		  }
+//	    		  System.out.println("Name of Assignment:");
+//	    		  String assign = Database.scanner.nextLine();
+//			      System.out.println();
+//			      Course.getAllAssignmentOfName(assign);
+//			      break;
+//	    	  }
 	    	  case "6": {
 	    		 System.out.println(getGPA());
 	    	     break; 
@@ -129,15 +129,10 @@ public class Student extends User {
 //	    		 }
 //	    	  }
 	    	  
-	    	  case "11": {
-	    		  System.out.println("All users:\n");
-	    		  
-	    		 for (Entry<String, User> entry: Database.getUsers().entrySet()) {
-	    			 System.out.println(entry.getValue().toString() + "\n");
-    			 }
-	    		 
-	    	     break;
-	    	  }
+//	    	  case "11": {
+//	    		 addCourse(); 
+//	    	     break;
+//	    	  }
 	    	     
 	    	  case "q": { // Exit
 	    		 System.out.println("Logging out...");
