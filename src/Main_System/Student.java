@@ -52,9 +52,8 @@ public class Student extends User {
 					+ "\n	\"7\"	View graduation status"
 					+ "\n	\"8\"	View number of units taken"
 					+ "\n	\"9\"	View courses taken"
-					+ "\n	\"10\"	View schedule" // possibly an optional feature
-					+ "\n	\"11\"	Add course"
-					+ "\n	\"12\"	Drop course"
+					+ "\n	\"10\"	Add course"
+					+ "\n	\"11\"	Drop course"
 					+ "\n	\"q\"	Logout\n");
 			
 	    	System.out.print("Enter Command: ");
@@ -77,26 +76,14 @@ public class Student extends User {
 	    	     break; 
 	    	  }
 		    	     
-//	    	  case "4": {
-//	    		  if (Course.getAssignments().isEmpty()) {
-//	    			  System.out.println("No assignments to display.\n");
-//	    			  break;
-//		    		 }
-//	    		  System.out.println("Assignments: " + Course.getAssignments().toString());
-//	    		  break;
-//	    	  }
+	    	  case "4": {
+	    		  viewAllAssignments();
+	    	  }
 	    	  
-//	    	  case "5": {
-//	    		  if (Course.getAssignments().isEmpty()) {
-//	    			  System.out.println("No assignments to display.\n");
-//	    			  break;
-//	    		  }
-//	    		  System.out.println("Name of Assignment:");
-//	    		  String assign = Database.scanner.nextLine();
-//			      System.out.println();
-//			      Course.getAllAssignmentOfName(assign);
-//			      break;
-//	    	  }
+	    	  case "5": {
+	    		  viewAnAssignment();
+	    		  break;
+	    	  }
 	    	  case "6": {
 	    		 System.out.println(getGPA());
 	    	     break; 
@@ -116,23 +103,21 @@ public class Student extends User {
 	    		 if (Database.getCourses().isEmpty()) {
 	    			 System.out.println("No courses to display.\n");
 	    			 break;
+	    		 } else {
+	    			 System.out.println("Courses: " + courseHistory.toString());
+		    	     break;
 	    		 }
-	    		 
-	    		 System.out.println("Courses: " + courseHistory.toString());
-	    	     break;
+	    	  }
+    	  
+	    	  case "10": {
+	    		  addCourse();
+	    		  break;
 	    	  }
 	    	  
-//	    	  case "10": {
-//	    		 for (Entry<Course, Double> courses : courseHistory.entrySet()) {
-//	    			 System.out.println("Classrooms: " + courseHistory.toString());
-//	    			 break;
-//	    		 }
-//	    	  }
-	    	  
-//	    	  case "11": {
-//	    		 addCourse(); 
-//	    	     break;
-//	    	  }
+	    	  case "11": {
+	    		  dropCourse();
+	    		  break;
+	    	  }
 	    	     
 	    	  case "q": { // Exit
 	    		 System.out.println("Logging out...");
@@ -158,6 +143,180 @@ public class Student extends User {
 	 * Getter Methods
 	 * 
 	 */
+	
+	public void viewAllAssignments() {
+		Course courseObject = null;
+		String courseName = " ";
+
+		int state = 0;
+		Database.scanner.nextLine();
+		
+		if (courseHistory.isEmpty()) {
+			System.out.println("Not enrolled in any classes");
+			return;
+		} 
+		
+		while (true) {
+			if (state == 0) { // listening for course name
+				System.out.println("Enter \"q\" to exit.");
+				System.out.println("Enter course name: ");
+				courseName = InputHandler.promptLine();
+				System.out.println("");
+				
+				if (courseName.equals("q")) {
+					break;
+				}
+				
+				for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+					if (courseName.equals(entry.getKey().getName())) {
+						if (entry.getKey().getAssignments().isEmpty()) {
+							System.out.println("No Assignments");
+							break;
+						} else {
+							entry.getKey().getAssignments();
+						}
+					} else {
+						System.out.println("Student not in course");
+					}
+				}
+			}
+		}
+	}
+	
+	public void viewAnAssignment() {
+		String assignmentName = "";
+		String courseName = " ";
+		Course courseObject = null;
+
+		int state = 0;
+		Database.scanner.nextLine();
+		
+		if (courseHistory.isEmpty()) {
+			System.out.println("Not enrolled in any classes");
+			return;
+		} 
+		
+		while (true) {
+			if (state == 0) { // listening for course name
+				System.out.println("Enter \"q\" to exit.");
+				System.out.println("Enter Course Name: ");
+				courseName = InputHandler.promptLine();
+				
+				if (courseName.equals("q")) {
+					break;
+				}
+				
+				for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+					if (courseName.equals(entry.getKey().getName())) {
+						continue;
+					} else {
+						System.out.println("Not in course");
+					}
+				}
+				state++;
+			}
+			if (state == 1) { // listening for assignment name
+				System.out.println("Enter \"q\" to go back.");
+				System.out.print("Enter assignment name: ");
+				assignmentName = InputHandler.promptLine();
+				System.out.println("");
+		        
+		        if (assignmentName.equals("q")) {
+		        	state--;
+					continue;
+				}
+		        
+		        for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+					if (courseName.equals(entry.getKey().getName())) {
+						if (entry.getKey().getAllAssignmentOfName(assignmentName).isEmpty()) {
+							System.out.println("No such assignments exist");
+						} else {
+							entry.getKey().getAllAssignmentOfName(assignmentName);
+							break;
+						}
+					}
+		        }
+			}
+		}
+	}
+	
+	public void addCourse() {
+		String courseName = "";
+		Course object = null;
+		Database.scanner.nextLine();
+		
+		while (true) {
+			System.out.println("Enter \"q\" to exit.");
+			System.out.print("Enter course name: ");
+			courseName = InputHandler.promptLine();
+			System.out.println("");
+			boolean classFound = false;
+			boolean classFull = false;
+			
+			if (courseName.equals("q")) {
+				break;
+			}
+				
+				
+			for (Course i : Database.courses) {
+				if (courseName.equals(i.getName())) {
+					if (i.isFull()) {
+						classFull = true;
+						continue;
+					} else {
+						addCourse(i);
+						classFound = true;
+						break;
+					}
+				}
+   			 }
+				
+			if (classFound) {
+				System.out.println("Course has been added");
+				break;
+			} else if (classFull){
+				System.out.println("Course is full");
+				continue;
+			} else { 
+				System.out.println("Course is not found");
+				continue;
+			}
+		}
+		System.out.println("Exiting addCourse method...");
+	}
+	
+	public void dropCourse() {
+		String courseName = "";
+		Database.scanner.nextLine();
+		boolean courseFound = false;
+		
+		if (courseHistory.isEmpty()) {
+			System.out.println("No courses found");
+			return;
+		}
+		
+		while (courseFound == false) {
+			System.out.println("Enter \"q\" to exit.");
+			System.out.print("Enter course name: ");
+			courseName = InputHandler.promptLine();
+			System.out.println("");
+			
+			if (courseName.equals("q")) {
+				break;
+			}
+				
+			for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+				if (courseName.equals(entry.getKey().getName())) {
+					courseFound = true;
+					dropCourse(entry.getKey());
+					System.out.println("Course Dropped");
+				} else {
+					System.out.println("Student not in course");
+				}
+			}
+		}
+		System.out.println("Exiting dropCourse method...");
+	}
 	
 	public String getClassOf() {
 		return "Class of " + enrollmentDate.getYear();
