@@ -10,7 +10,7 @@ import java.util.Scanner;
 public final class Database {
 	private static HashMap<String, User> users = new HashMap<String, User>();
 	private static HashMap<String, Classroom> classrooms = new HashMap<String, Classroom>();
-	private static ArrayList<Course> courses = new ArrayList<Course>();
+	static ArrayList<Course> courses = new ArrayList<Course>();
 	public static Scanner scanner = new Scanner(System.in);
 
 	public static void initialize() {
