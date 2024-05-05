@@ -232,7 +232,7 @@ public class Course {
 			for (Assignment assignment: assignmentList) {
 				PositionFound++;
 				
-				if (assignment.getName() == name) {
+				if (assignment.getName().equals(assignmentName)) {
 					// assignment found
 					assignmentPositions.put(student, PositionFound);
 					break;
@@ -266,6 +266,7 @@ public class Course {
 			entry.getValue().add(new Assignment(entry.getKey(), this, assignmentName, assignmentDescription, totalScore));
 		}
 		
+		System.out.println("Assignment created: " + assignmentName);
 		return true;
 	}
 	

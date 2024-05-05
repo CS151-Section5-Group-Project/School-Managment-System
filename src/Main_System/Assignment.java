@@ -27,7 +27,7 @@ public class Assignment {
 	// constructor for ungraded assignments
 	public Assignment(Student owner, Course course, String name, String description, int totalScore) {
 		this.owner = owner;
-		this.course = null;
+		this.course = course;
 		this.name = name;
 		this.description = description;
 		this.totalScore = totalScore;
