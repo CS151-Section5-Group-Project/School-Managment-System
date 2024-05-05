@@ -78,6 +78,7 @@ public class Student extends User {
 		    	     
 	    	  case "4": {
 	    		  viewAllAssignments();
+			  break;
 	    	  }
 	    	  
 	    	  case "5": {
