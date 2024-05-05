@@ -72,12 +72,11 @@ public class Teacher extends User{
 	    	     break; 
 	    	  }
 	    	    
-//	    	  case "7": {
-//	    		 viewAllAssignment();
-//	    	     break; 
-//	    	  }
-	    	     
-	    	     
+	    	  case "7": {
+	    		 viewAllAssignment();
+	    	     break; 
+	    	  }
+	    	       
 	    	  case "8": {
 	    		 System.out.println("Courses currently teaching: " + courses.toString());
 	    	     break;
@@ -93,15 +92,15 @@ public class Teacher extends User{
 	    	     break;
 	    	  }
 	    	  
-//	    	  case "11": {
-//	    		 System.out.println("All users:\n");
-//	    		  
-//	    		 for (Entry<String, User> entry: Database.getUsers().entrySet()) {
-//	    			 System.out.println(entry.getValue().toString() + "\n");
-//	    		 }
-//	    		 
-//	    	     break;
-//	    	  }
+	    	  case "11": {
+	    		 deleteAssignment();
+	    	     break;
+	    	  }
+	    	  
+	    	  case "12": {
+	    		 removeStudent();
+	    		 break;
+	    	  }
 	    	     
 	    	  case "q": { // Exit
 	    		 System.out.println("Logging out...");
@@ -323,12 +322,49 @@ public class Teacher extends User{
 				}
 				
 				addAssignment(courseObject, assignmentName, assignmentDescription, assignmentScore);
-				System.out.println("Created Assignment: " + assignmentName);
+				
 				break;
 			}
 		}
 		
 		System.out.println("Exiting createAssignment method...");
+	}
+	
+	public void deleteAssignment() {
+		Course courseObject = null;
+		String assignmentName = "";
+		
+		int state = 0;
+		Database.scanner.nextLine();
+		
+		while (true) {
+			if (state == 0) { // listening for course name
+				courseObject = promptFindCourse();
+				
+				if (courseObject == null) { // no selection is made
+					break;
+				}
+				
+				state++;
+			}
+			
+			if (state == 1) { // listening for assignment name
+				System.out.println("Enter \"q\" to exit.");
+				System.out.print("Enter the name of the assignment: ");
+				assignmentName = InputHandler.promptLine();
+				System.out.println("");
+				
+				if (assignmentName.equals("q")) {
+					state--;
+					continue;
+				}
+				
+				removeAssignment(courseObject, assignmentName);
+				System.out.println("Deleted Assignment: " + assignmentName);
+				break;
+			}
+		}
+		System.out.println("Exiting deleteAssignment method...");
 	}
 	
 	public void viewAllAssignment() {
@@ -422,7 +458,7 @@ public class Teacher extends User{
 				assignmentName = InputHandler.promptLine();
 				System.out.println("");
 				
-				if (studentUsername.equals("q")) {
+				if (assignmentName.equals("q")) {
 					state--;
 					continue;
 				}
@@ -507,6 +543,51 @@ public class Teacher extends User{
 		System.out.println("Exiting getStudentGrade method...");
 	}
 	
+	public void removeStudent() {
+		Course courseObject = null;
+		Student studentObject = null;
+		String studentUsername = "";
+		
+		int state = 0;
+		Database.scanner.nextLine();
+		
+		while (true) {
+			if (state == 0) { // listening for course name
+				courseObject = promptFindCourse();
+				
+				if (courseObject == null) { // no selection is made
+					break;
+				}
+				
+				state++;
+			}
+			
+			if (state == 1) { // listening for student
+				System.out.println("Enter \"q\" to go back.");
+				System.out.print("Enter username of student: ");
+				studentUsername = InputHandler.promptLine();
+				System.out.println("");
+				
+				if (studentUsername.equals("q")) {
+					state--;
+					continue;
+				}
+				
+				studentObject = courseObject.getStudent(studentUsername);
+				
+				if (studentObject == null) { // check if student belong to course
+					continue;
+				}
+				
+				dropStudent(courseObject, studentObject);
+				System.out.println(studentObject + " was dropped from course: " + courseObject.getName());
+				break;
+			}
+		}
+		
+		System.out.println("Exiting removeStudent method...");
+	}
+	
 	public boolean containCourse(String courseName) {
 		for (Course course: courses) {
 			if (course.getName().equals(courseName)) {
@@ -547,13 +628,16 @@ public class Teacher extends User{
 		course.removeAssignment(assignmentName);
 	}
 	
+	public void dropStudent(Course course, Student student) {
+		course.dropStudent(student);
+	}
+	
 	public void createPost() throws CloneNotSupportedException {
 		String receiverUsername = "";
 		User receiverObjectFound = null;
 		String subject = "";
 		String message = "";
 		String postType = "";
-		String courseName = "";
 		Course courseObjectFound = null;
 		
 		int state = 0;
@@ -610,29 +694,7 @@ public class Teacher extends User{
 			}
 			
 			if (state == 2) { // listening for course (by name)
-				System.out.println("Enter \"q\" to go back.");
-				System.out.print("Enter course to send to: ");
-				courseName = Database.scanner.nextLine();
-				System.out.println("");
-				
-				if (courseName.equals("q")) {
-					if (postType.equals("announcement")) {
-			        	state = 0;
-			        	continue;
-			        }
-					
-					state--;
-					continue;
-				}
-				
-				for (Course courseObject: Database.getCourses()) {
-					if (courseObject.getName().equals(courseName)) {
-						if (courseObject.getTeacher() == this) {
-							courseObjectFound = courseObject;
-							break;
-						}
-					}
-				}
+				courseObjectFound = promptFindCourse();
 				
 				if (courseObjectFound == null) { // check if user exist
 					System.out.println("This teacher is not teaching the specified course.");
