@@ -18,7 +18,7 @@ public final class Database {
 	}
 	
 	public static void initialize2() {
-		new Student("Andy", "Test", "Andy.Test", "password", LocalDate.of(2021, 8, 26));
+		Student student1 = new Student("Andy", "Test", "Andy.Test", "password", LocalDate.of(2021, 8, 26));
 		new Student("Leo", "Test", "Leo.Test", "password", LocalDate.of(2022, 8, 27));
 		new Student("Brian", "Test", "Brian.Test", "password", LocalDate.of(2023, 8, 28));
 		new Student("The", "Student", "student", "study", LocalDate.of(2003, 8, 15));
@@ -59,11 +59,14 @@ public final class Database {
 		ArrayList<DayOfWeek> W = new ArrayList<DayOfWeek>();
 		W.add(DayOfWeek.WEDNESDAY);
 		
-		new Course("CS123", teacher1, "SP2024", classroom1, LocalTime.of(18, 0), LocalTime.of(19, 15), MW);
-		new Course("CS123LAB", teacher2, "FA2024", classroom2, LocalTime.of(19, 30), LocalTime.of(20, 45), F);
+		Course course1 = new Course("CS123", teacher1, "SP2024", classroom1, LocalTime.of(18, 0), LocalTime.of(19, 15), MW);
+		Course course2 = new Course("CS123LAB", teacher2, "FA2024", classroom2, LocalTime.of(19, 30), LocalTime.of(20, 45), F);
 		new Course("CMPE131", teacher3, "SUM2024", classroom3, LocalTime.of(21, 0), LocalTime.of(22, 15), TTh);
 		new Course("CS133", teacher4, "WIN2024", classroom4, LocalTime.of(12, 0), LocalTime.of(13, 15), MTWThF);
 		new Course("CMPE133", teacher4, "SP2022", classroom1, LocalTime.of(14, 30), LocalTime.of(15, 45), W);
+		
+		course1.addStudent(student1);
+		
 	}
 	
 	public static ArrayList<Course> getCourses() {

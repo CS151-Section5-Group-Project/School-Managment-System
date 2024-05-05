@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class Course {
-	private static String name; // name of course
+	private String name; // name of course
 	private Teacher teacher; // teacher teaching the course
 	private String term; // term of course
 	private int unit; // unit of the course
@@ -15,7 +15,7 @@ public class Course {
 	private LocalTime startTime; // time the course starts
 	private LocalTime endTime; // time the course ends
 	private ArrayList<DayOfWeek> days; // the days the course is taught at
-	private static HashMap<Student, ArrayList<Assignment>> assignments; // the assignment given
+	private HashMap<Student, ArrayList<Assignment>> assignments; // the assignment given
 	
 	public Course() { // default constructor
 		name = "";
@@ -34,7 +34,7 @@ public class Course {
 	
 	// constructor for classes with a time
 	public Course(String name, Teacher teacher, String term, Classroom classroom, LocalTime startTime, LocalTime endTime, ArrayList<DayOfWeek> day) { 
-		Course.name = name;
+		this.name = name;
 		this.teacher = teacher;
 		this.term = term;
 		this.classroom = classroom;
@@ -51,7 +51,7 @@ public class Course {
 	
 	// constructor for classes without a time
 	public Course(String name, Teacher teacher, String term) { // constructor for in person classes 
-		Course.name = name;
+		this.name = name;
 		this.teacher = teacher;
 		this.term = term;
 		classroom = null;
@@ -66,7 +66,7 @@ public class Course {
 		}
 	}
 	
-	public static HashMap<Student, ArrayList<Assignment>> getAssignments() {
+	public HashMap<Student, ArrayList<Assignment>> getAssignments() {
 		return assignments;
 	}
 	
@@ -102,7 +102,7 @@ public class Course {
 		return term;
 	}
 	
-	public static int getCourseSize() {
+	public int getCourseSize() {
 		return assignments.size();
 	}
 	
@@ -184,7 +184,7 @@ public class Course {
 	}
 	
 	// Returns all assignment under the passed name
-	public static ArrayList<Assignment> getAllAssignmentOfName(String assignmentName) {
+	public ArrayList<Assignment> getAllAssignmentOfName(String assignmentName) {
 		ArrayList<Assignment> assignmentListResult = new ArrayList<Assignment>();
 		HashMap<Student, Integer> assignmentPositions = findAssignment(assignmentName);
 		
@@ -203,7 +203,7 @@ public class Course {
 		ArrayList<Assignment> AssignmentList = assignments.get(student);
 		
 		for (Assignment assignment: AssignmentList) {
-			if (assignment.getName() == assignmentName) {
+			if (assignment.getName().equals(assignmentName)) {
 				// Assignment found
 				return assignment;
 			}
@@ -214,7 +214,7 @@ public class Course {
 	}
 	
 	// Returns the position where the assignment is found
-	public static HashMap<Student, Integer> findAssignment(String assignmentName) {
+	public HashMap<Student, Integer> findAssignment(String assignmentName) {
 		HashMap<Student, Integer> assignmentPositions = new HashMap<Student, Integer>();
 		
 		// Check if there are students to assign assignments

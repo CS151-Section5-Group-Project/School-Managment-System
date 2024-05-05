@@ -72,10 +72,10 @@ public class Teacher extends User{
 	    	     break; 
 	    	  }
 	    	    
-	    	  case "7": {
-	    		 viewAllAssignment();
-	    	     break; 
-	    	  }
+//	    	  case "7": {
+//	    		 viewAllAssignment();
+//	    	     break; 
+//	    	  }
 	    	     
 	    	     
 	    	  case "8": {
@@ -85,12 +85,13 @@ public class Teacher extends User{
 	    	     
 	    	  case "9": {
 	    		  createAssignment();
+	    		  break;
 	    	  }
-//	    	  
-//	    	  case "10": {
-//	    		 System.out.println("Classrooms: " + Database.getClassrooms().toString());
-//	    	     break;
-//	    	  }
+	    	  
+	    	  case "10": {
+	    		 gradeStudentAssignment();
+	    	     break;
+	    	  }
 	    	  
 //	    	  case "11": {
 //	    		 System.out.println("All users:\n");
@@ -188,8 +189,76 @@ public class Teacher extends User{
 		return null;
 	}
 	
+	public void gradeStudentAssignment() {
+		Course courseObject = null;
+		Student studentToGrade = null;
+		Assignment assignmentObject = null;
+		String assignmentName = "";
+		int gradedScore = 0;
+		
+		int state = 0;
+		Database.scanner.nextLine();
+		
+		while (true) {
+			if (state == 0) { // listening for course name
+				courseObject = promptFindCourse();
+				
+				if (courseObject == null) { // no selection is made
+					break;
+				}
+				
+				state++;
+			}
+			if (state == 1) { // listening for student 
+				studentToGrade = promptFindStudent(courseObject);
+				
+				if (studentToGrade == null) {
+					state--;
+				}else {
+					state++;
+				}
+			}
+			if (state == 2) { //listening for student's assignment
+				System.out.println("Enter \"q\" to exit.");
+				System.out.print("Enter the name of the assignment: ");
+				assignmentName = InputHandler.promptLine();
+				System.out.println("");
+				
+				
+				if (assignmentName.equals("q")) {
+					state--;
+					continue;
+				}
+				
+				if (courseObject.getAssignmentFromStudent(studentToGrade, assignmentName) == null) {
+					System.out.println("The name given is not found. ");
+					continue;
+				}
+				
+				assignmentObject = courseObject.getAssignmentFromStudent(studentToGrade, assignmentName);
+				state++;
+			}
+			if (state == 3) { // listening for graded score
+				System.out.println("Enter \"-1\" to exit.");
+				System.out.print("Enter the total score of the assignment: ");
+				gradedScore = InputHandler.promptNumber();
+				System.out.println("");
+				
+				if (gradedScore == -1) {
+					state--;
+					continue;
+				}
+				gradeAssignment(assignmentObject, gradedScore);
+				System.out.println("Graded Assignment: " + assignmentName);
+				break;
+			}
+			System.out.println("Exiting gradeStudentAssignment method...");
+		}
+		
+		
+	}
 	public void createAssignment() {
-		String courseChoice = "";
+		//String courseChoice = "";
 		Course courseObject = null;
 		String assignmentName = "";
 		String assignmentDescription = "";
@@ -215,7 +284,7 @@ public class Teacher extends User{
 				assignmentName = InputHandler.promptLine();
 				System.out.println("");
 				
-				if (courseChoice.equals("q")) {
+				if (assignmentName.equals("q")) {
 					state--;
 					continue;
 				}
@@ -234,8 +303,7 @@ public class Teacher extends User{
 				assignmentDescription = InputHandler.promptLine();
 				System.out.println("");
 				
-				if (courseChoice.equals("q")) {
-					Database.scanner.nextLine();
+				if (assignmentDescription.equals("q")) {
 					state--;
 					continue;
 				}
@@ -255,6 +323,8 @@ public class Teacher extends User{
 				}
 				
 				addAssignment(courseObject, assignmentName, assignmentDescription, assignmentScore);
+				System.out.println("Created Assignment: " + assignmentName);
+				break;
 			}
 		}
 		
@@ -463,10 +533,6 @@ public class Teacher extends User{
 		}
 		
 		return result;
-	}
-	
-	public void gradeAssignment(Course course, Student student, String string, int score) {
-		course.gradeAssignment(course.getAssignmentFromStudent(student, string), score);
 	}
 	
 	public void gradeAssignment(Assignment assignment, int score) {
