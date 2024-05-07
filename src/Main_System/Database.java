@@ -20,9 +20,9 @@ public final class Database {
 	
 	public static void initialize2() {
 		Student student1 = new Student("Andy", "Test", "Andy.Test", "password", LocalDate.of(2021, 8, 26));
-		new Student("Leo", "Test", "Leo.Test", "password", LocalDate.of(2022, 8, 27));
-		new Student("Brian", "Test", "Brian.Test", "password", LocalDate.of(2023, 8, 28));
-		new Student("The", "Student", "student", "study", LocalDate.of(2003, 8, 15));
+		Student student2 = new Student("Leo", "Test", "Leo.Test", "password", LocalDate.of(2022, 8, 27));
+		Student student3 = new Student("Brian", "Test", "Brian.Test", "password", LocalDate.of(2023, 8, 28));
+		Student student4 = new Student("The", "Student", "student", "study", LocalDate.of(2003, 8, 15));
 		
 		Teacher teacher1 = new Teacher("Daniel", "Smith", "Daniel.Smith", "password");
 		Teacher teacher2 = new Teacher("Richard", "Johnson", "Richard.Johnson", "password");
@@ -62,16 +62,25 @@ public final class Database {
 		W.add(DayOfWeek.WEDNESDAY);
 		
 		Course course1 = new Course("CS123", teacher1, "SP2024", 3, classroom1, LocalTime.of(18, 0), LocalTime.of(19, 15), MW);
-		new Course("CS123LAB", teacher2, "FA2024", 1, classroom2, LocalTime.of(19, 30), LocalTime.of(20, 45), F);
-		new Course("CMPE131", teacher3, "SUM2024", 4, classroom3, LocalTime.of(21, 0), LocalTime.of(22, 15), TTh);
-		new Course("CS133", teacher4, "WIN2024", 4, classroom4, LocalTime.of(12, 0), LocalTime.of(13, 15), MTWThF);
-		new Course("CMPE133", teacher4, "SP2022", 3, classroom1, LocalTime.of(14, 30), LocalTime.of(15, 45), W);
-		new Course("ENGR10", teacher4, "WIN2023", 4);
+		Course course2 = new Course("CS123LAB", teacher2, "FA2024", 1, classroom2, LocalTime.of(19, 30), LocalTime.of(20, 45), F);
+		Course course3 = new Course("CMPE131", teacher3, "SUM2024", 4, classroom3, LocalTime.of(21, 0), LocalTime.of(22, 15), TTh);
+		Course course4 = new Course("CS133", teacher4, "WIN2024", 4, classroom4, LocalTime.of(12, 0), LocalTime.of(13, 15), MTWThF);
+		Course course5 = new Course("CMPE133", teacher4, "SP2022", 3, classroom1, LocalTime.of(14, 30), LocalTime.of(15, 45), W);
+		Course course6 = new Course("ENGR10", teacher1, "WIN2023", 4, classroom2, LocalTime.of(19, 30), LocalTime.of(20, 45), W);
 		
 		course1.addStudent(student1);
+		course2.addStudent(student2);
+		course3.addStudent(student3);
+		course4.addStudent(student4);
+		course5.addStudent(student2);
+		course6.addStudent(student1);
 		
 		new Assignment(student1, course1, "Syllabus", "Turn this in before tomorrow's class", 100, 75);
-		new Assignment(student1, course1, "Assignment 1", "Easy A assignment", 100, 50);
+		new Assignment(student1, course1, "Assignment 1", "Easy A assignment", 10, 10);
+		new Assignment(student2, course2, "Assignment 1", "Reading Assignment 1", 100, 80);
+		new Assignment(student3, course3, "Assignment 1", "Quiz 1", 10, 5);
+		new Assignment(student4, course4, "Assignment 1", "Course Requirements Check", 1, 1);
+		new Assignment(student4, course4, "Assignment 2", "Lesson 1-5 Quiz", 20, 11);
 	}
 	
 	public static void displayClassrooms() {
