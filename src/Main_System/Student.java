@@ -318,11 +318,32 @@ public class Student extends User {
 	public double getGPA() {
 		int totalScore = 0;
 		
-		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
-			totalScore += Math.ceil(entry.getValue());
+		
+		for (Course course: courseHistory.keySet()) {
+			double coursePercentage = 0.0;
+			int totalPoints = 0;
+			int totalGradedPoints = 0;
+			for (Assignment assignment: course.getAssignments().get(this)) {
+				totalPoints += assignment.getTotalScore();
+				totalGradedPoints += assignment.getGradedScore();
+			}
+			
+			coursePercentage = (double) totalGradedPoints / totalPoints * 100;
+			courseHistory.remove(course);
+			courseHistory.put(course, GradeSystem.percentageToGPA(coursePercentage));
 		}
 		
-		return (double)totalScore/courseHistory.size();
+		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+			totalScore += entry.getValue() * entry.getKey().getUnit();
+		}
+		
+		// Unrounded GPA
+		double GPA = (double)totalScore/getUnit();
+		
+		// Rounds to the 1st decimal place
+		double roundedGPA = Math.round(GPA * Math.pow(10, 1)) / Math.pow(10, 1);
+		
+		return roundedGPA;
 	}
 	
 	public double getUnit() {

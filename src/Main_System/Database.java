@@ -71,7 +71,7 @@ public final class Database {
 		course1.addStudent(student1);
 		
 		new Assignment(student1, course1, "Syllabus", "Turn this in before tomorrow's class", 100, 75);
-		new Assignment(student1, course1, "Assignment 1", "Easy A assignment", 100, 50);
+		new Assignment(student1, course1, "Assignment 1", "Easy A assignment", 100, 80);
 	}
 	
 	public static void displayClassrooms() {
