@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 public final class Database {
 	private static HashMap<String, User> users = new HashMap<String, User>();
@@ -37,6 +38,7 @@ public final class Database {
 		Classroom classroom2 = new Classroom("BBC101", 30);
 		Classroom classroom3 = new Classroom("SCI100", 30);
 		Classroom classroom4 = new Classroom("SCI101", 30);
+		new Classroom("Online", 30);
 		
 		ArrayList<DayOfWeek> MW = new ArrayList<DayOfWeek>();
 		MW.add(DayOfWeek.MONDAY);
@@ -59,14 +61,23 @@ public final class Database {
 		ArrayList<DayOfWeek> W = new ArrayList<DayOfWeek>();
 		W.add(DayOfWeek.WEDNESDAY);
 		
-		Course course1 = new Course("CS123", teacher1, "SP2024", classroom1, LocalTime.of(18, 0), LocalTime.of(19, 15), MW);
-		Course course2 = new Course("CS123LAB", teacher2, "FA2024", classroom2, LocalTime.of(19, 30), LocalTime.of(20, 45), F);
-		new Course("CMPE131", teacher3, "SUM2024", classroom3, LocalTime.of(21, 0), LocalTime.of(22, 15), TTh);
-		new Course("CS133", teacher4, "WIN2024", classroom4, LocalTime.of(12, 0), LocalTime.of(13, 15), MTWThF);
-		new Course("CMPE133", teacher4, "SP2022", classroom1, LocalTime.of(14, 30), LocalTime.of(15, 45), W);
+		Course course1 = new Course("CS123", teacher1, "SP2024", 3, classroom1, LocalTime.of(18, 0), LocalTime.of(19, 15), MW);
+		new Course("CS123LAB", teacher2, "FA2024", 1, classroom2, LocalTime.of(19, 30), LocalTime.of(20, 45), F);
+		new Course("CMPE131", teacher3, "SUM2024", 4, classroom3, LocalTime.of(21, 0), LocalTime.of(22, 15), TTh);
+		new Course("CS133", teacher4, "WIN2024", 4, classroom4, LocalTime.of(12, 0), LocalTime.of(13, 15), MTWThF);
+		new Course("CMPE133", teacher4, "SP2022", 3, classroom1, LocalTime.of(14, 30), LocalTime.of(15, 45), W);
+		new Course("ENGR10", teacher4, "WIN2023", 4);
 		
 		course1.addStudent(student1);
 		
+		new Assignment(student1, course1, "Syllabus", "Turn this in before tomorrow's class", 100, 75);
+		new Assignment(student1, course1, "Assignment 1", "Easy A assignment", 100, 50);
+	}
+	
+	public static void displayClassrooms() {
+		for (Entry<String, Classroom> entry: classrooms.entrySet()) {
+			System.out.println(entry.getValue().toString());
+		}
 	}
 	
 	public static ArrayList<Course> getCourses() {

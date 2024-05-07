@@ -34,16 +34,22 @@ public class Assignment {
 		this.gradedScore = 0;
 		graded = false;
 		createdAt = LocalDate.now();
+		
+		course.getAssignments().get(owner).add(this);
 	}
 	
 	// constructor for graded assignments
 	public Assignment(Student owner, Course course, String name, String description, int totalScore, int gradedScore) {
-		this.name = name;
+		this.owner = owner;
 		this.course = course;
+		this.name = name;
+		this.description = description;
 		this.totalScore = totalScore;
-		this.gradedScore = 0;
+		this.gradedScore = gradedScore;
 		graded = true;
 		createdAt = LocalDate.now();
+		
+		course.getAssignments().get(owner).add(this);
 	}
 	
 	public int getTotalScore() {
