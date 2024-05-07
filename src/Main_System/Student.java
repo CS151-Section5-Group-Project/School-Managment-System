@@ -222,7 +222,8 @@ public class Student extends User {
 		        
 		        if (assignmentName.equals("q")) {
 		        	state--;
-					continue;
+				courseObject = null;
+				continue;
 				}
 		        
 		        assignmentObject = courseObject.getAssignmentFromStudent(this, assignmentName);
