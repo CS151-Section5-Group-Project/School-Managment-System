@@ -329,8 +329,7 @@ public class Student extends User {
 			}
 			
 			coursePercentage = (double) totalGradedPoints / totalPoints * 100;
-			courseHistory.remove(course);
-			courseHistory.put(course, GradeSystem.percentageToGPA(coursePercentage));
+			courseHistory.replace(course, GradeSystem.percentageToGPA(coursePercentage));
 		}
 		
 		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
