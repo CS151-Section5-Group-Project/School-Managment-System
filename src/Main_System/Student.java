@@ -323,16 +323,19 @@ public class Student extends User {
 		int totalScore = 0;
 		
 		for (Course course: courseHistory.keySet()) {
-			double coursePercentage = 0.0;
-			int totalPoints = 0;
-			int totalGradedPoints = 0;
-			for (Assignment assignment: course.getAssignments().get(this)) {
-				totalPoints += assignment.getTotalScore();
-				totalGradedPoints += assignment.getGradedScore();
+			// Checks if the course has at least one assignment
+			if (course.getAssignments().get(this).size() >= 1) {
+				double coursePercentage = 0.0;
+				int totalPoints = 0;
+				int totalGradedPoints = 0;
+				for (Assignment assignment: course.getAssignments().get(this)) {
+					totalPoints += assignment.getTotalScore();
+					totalGradedPoints += assignment.getGradedScore();
+				}
+				
+				coursePercentage = (double) totalGradedPoints / totalPoints * 100;
+				courseHistory.replace(course, GradeSystem.percentageToGPA(coursePercentage));
 			}
-			
-			coursePercentage = (double) totalGradedPoints / totalPoints * 100;
-			courseHistory.replace(course, GradeSystem.percentageToGPA(coursePercentage));
 		}
 		
 		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
