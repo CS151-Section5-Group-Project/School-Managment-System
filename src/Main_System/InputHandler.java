@@ -10,7 +10,7 @@ public class InputHandler {
 			paragraphInput = Database.scanner.nextLine();
 			
 			if (paragraphInput.length() == 0) {
-				System.out.print("Input cannot be blank. Try again: ");
+				System.out.println("Input cannot be blank. Try again: ");
 			}
 		}
 		
@@ -27,7 +27,7 @@ public class InputHandler {
 				System.out.println();
 				success = true;
 			} catch (InputMismatchException e) {
-				System.out.print("Only numbers are allowed. Try again: ");
+				System.out.println("Only numbers are allowed. Try again: ");
 				Database.scanner.nextLine();
 			}
 		}

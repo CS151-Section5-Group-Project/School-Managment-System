@@ -112,6 +112,7 @@ public abstract class User {
 		String message = "";
 		
 		int state = 0;
+		Database.scanner.nextLine();
 		
 		while (true) {
 			if (state == 0) { // listening for sender
@@ -151,7 +152,7 @@ public abstract class User {
 			
 			if (state == 2) { // listening for message
 				System.out.println("Press \"q\" to go back.");
-				System.out.print("Enter message:");
+				System.out.print("Enter message: ");
 		        message = Database.scanner.nextLine();
 		        System.out.println();
 				
@@ -167,7 +168,7 @@ public abstract class User {
 			}
 		}
 		
-		System.out.println("Exiting create post method...");
+		System.out.println("Exiting createPost method...");
 	}
 
 	public abstract void onLogin() throws CloneNotSupportedException;

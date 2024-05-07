@@ -21,6 +21,7 @@ public class Course {
 		name = "";
 		teacher = null;
 		term = "";
+		unit = 0;
 		classroom = null;
 		startTime = null;
 		endTime = null;
@@ -33,10 +34,11 @@ public class Course {
 	}
 	
 	// constructor for classes with a time
-	public Course(String name, Teacher teacher, String term, Classroom classroom, LocalTime startTime, LocalTime endTime, ArrayList<DayOfWeek> day) { 
+	public Course(String name, Teacher teacher, String term, int unit, Classroom classroom, LocalTime startTime, LocalTime endTime, ArrayList<DayOfWeek> day) { 
 		this.name = name;
 		this.teacher = teacher;
 		this.term = term;
+		this.unit = unit;
 		this.classroom = classroom;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -46,24 +48,24 @@ public class Course {
 		if (!Database.containCourse(this)) {
 			Database.addCourse(this);
 			teacher.getCourses().add(this);
+			classroom.addCourse(this);
 		}
 	}
 	
 	// constructor for classes without a time
-	public Course(String name, Teacher teacher, String term) { // constructor for in person classes 
+	public Course(String name, Teacher teacher, String term, int unit) { // constructor for in person classes 
 		this.name = name;
 		this.teacher = teacher;
 		this.term = term;
-		classroom = null;
+		this.unit = unit;
+		classroom = Database.getClassroom("Online");
 		startTime = null;
 		endTime = null;
 		days = new ArrayList<DayOfWeek>();
 		assignments = new HashMap<Student, ArrayList<Assignment>>();
 		
-		if (!Database.containCourse(this)) {
-			Database.addCourse(this);
-			teacher.getCourses().add(this);
-		}
+		classroom.addCourse(this);
+		teacher.getCourses().add(this);
 	}
 	
 	public HashMap<Student, ArrayList<Assignment>> getAssignments() {
@@ -183,10 +185,18 @@ public class Course {
 		return average/count;
 	}
 	
+	public void updateStudentGrade(Student student) {
+		
+	}
+	
+	public static void updateStudentsGrade() {
+		
+	}
+	
 	// Returns all assignment under the passed name
 	public ArrayList<Assignment> getAllAssignmentOfName(String assignmentName) {
 		ArrayList<Assignment> assignmentListResult = new ArrayList<Assignment>();
-		HashMap<Student, Integer> assignmentPositions = findAssignment(assignmentName);
+		HashMap<Student, Integer> assignmentPositions = findAssignmentPosition(assignmentName);
 		
 		for (Entry<Student, Integer> entry: assignmentPositions.entrySet()) {
 			ArrayList<Assignment> assignmentList = assignments.get(entry.getKey());
@@ -214,7 +224,7 @@ public class Course {
 	}
 	
 	// Returns the position where the assignment is found
-	public HashMap<Student, Integer> findAssignment(String assignmentName) {
+	public HashMap<Student, Integer> findAssignmentPosition(String assignmentName) {
 		HashMap<Student, Integer> assignmentPositions = new HashMap<Student, Integer>();
 		
 		// Check if there are students to assign assignments
@@ -271,7 +281,7 @@ public class Course {
 	}
 	
 	public void removeAssignment(String assignmentName) {
-		HashMap<Student, Integer> assignmentPositions = findAssignment(assignmentName);
+		HashMap<Student, Integer> assignmentPositions = findAssignmentPosition(assignmentName);
 		
 		for (Entry<Student, Integer> entry: assignmentPositions.entrySet()) {
 			ArrayList<Assignment> assignmentList = assignments.get(entry.getKey());
@@ -317,6 +327,7 @@ public class Course {
 		}
 		
 		assignments.put(student, new ArrayList<Assignment>());
+		student.getCourseHistory().put(this, 4.0);
 	}
 	
 	public void addStudent(Student student, boolean override) {

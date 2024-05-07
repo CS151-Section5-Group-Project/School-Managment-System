@@ -1,6 +1,7 @@
 package Main_System;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 public class Teacher extends User{
 	private ArrayList<Course> courses; // courses being taught
@@ -144,6 +145,11 @@ public class Teacher extends User{
 				continue;
 			}
 			
+			if (!course.containStudent(studentUsername)) {
+				System.out.println("This student is no in this course.");
+				break;
+			}
+			
 			return studentObject;
 		}
 		
@@ -256,6 +262,7 @@ public class Teacher extends User{
 		
 		
 	}
+	
 	public void createAssignment() {
 		//String courseChoice = "";
 		Course courseObject = null;
@@ -288,7 +295,7 @@ public class Teacher extends User{
 					continue;
 				}
 				
-				if (courseObject.findAssignment(assignmentName).size() != 0) {
+				if (courseObject.findAssignmentPosition(assignmentName).size() != 0) {
 					System.out.println("Assignment already been made");
 					continue;
 				}
@@ -321,7 +328,9 @@ public class Teacher extends User{
 					continue;
 				}
 				
-				addAssignment(courseObject, assignmentName, assignmentDescription, assignmentScore);
+				for (Entry<Student, ArrayList<Assignment>> entry: courseObject.getAssignments().entrySet()) {
+					new Assignment(entry.getKey(), courseObject, assignmentName, assignmentDescription, assignmentScore);
+				}
 				
 				break;
 			}
@@ -478,7 +487,6 @@ public class Teacher extends User{
 	}
 	
 	public void viewStudentGrade() {
-		String courseChoice = "";
 		Course courseObject = null;
 		String studentUsername = "";
 		Student studentObject = null;
@@ -488,33 +496,25 @@ public class Teacher extends User{
 		
 		while (true) {
 			if (state == 0) { // listening for course name
-				System.out.println("Enter \"q\" to exit.");
-				System.out.print("Enter a number corresponding to the following courses: \n");
+				boolean hasStudent = false;
 				
-				for (int i = 0; i < courses.size(); i++) {
-					System.out.println("	\"" + i + "\"\n" + courses.get(i).toString() + "\n");
+				for (Course course: courses) {
+					if (course.getAssignments().size() > 0) {
+						hasStudent = true;
+					}
 				}
 				
-				courseChoice = InputHandler.promptLine();
-				System.out.println("");
-				
-				if (courseChoice.equals("q")) {
+				if (hasStudent == false) {
+					System.out.println("None of enrolled class have any students enrolled.");
 					break;
 				}
 				
-				try {
-					
-				} catch (NumberFormatException e) {
-					System.out.println("Invalid number");
-					continue;
+				courseObject = promptFindCourse();
+				
+				if (courseObject == null) {
+					break;
 				}
 				
-				if (Integer.parseInt(courseChoice) < 0 || Integer.parseInt(courseChoice) >= courses.size()) {
-					System.out.println("Invalid number");
-					continue;
-				}
-				
-				courseObject = courses.get(Integer.parseInt(courseChoice));
 				state++;
 			}
 			
@@ -618,10 +618,6 @@ public class Teacher extends User{
 	
 	public void gradeAssignment(Assignment assignment, int score) {
 		assignment.gradeAssignment(score);
-	}
-	
-	public void addAssignment(Course course, String assignmentName, String assignmentDescription, int totalScore) {
-		course.addAssignment(assignmentName, assignmentDescription, totalScore);
 	}
 	
 	public void removeAssignment(Course course, String assignmentName) {

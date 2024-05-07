@@ -3,6 +3,7 @@ package Main_System;
 public class Main {
     public static void main(String[] args) throws CloneNotSupportedException {
         Database.initialize2();
+        boolean firstVisit = false;
         
         System.out.println("Press \"q\" to terminate console during user selection.");
 	    
@@ -11,6 +12,10 @@ public class Main {
 	    	String password = "";
 	    	User currentUser = null;
 	    	boolean loginSuccess = false;
+	    	
+	    	if (firstVisit) {
+	    		Database.scanner.nextLine();
+	    	}
 	    	
 	    	while (currentUser == null) {
 	    		System.out.print("Enter username: ");
@@ -58,6 +63,7 @@ public class Main {
 	    	
 	    	System.out.println("Login success");
 	    	currentUser.onLogin();
+	    	firstVisit = true;
 		}
         
 	    Database.scanner.close();

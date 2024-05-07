@@ -457,6 +457,7 @@ public class Administrator extends User {
 		String teacherUsername = "";
 		Teacher teacherObject = null;
 		String term = "";
+		int unit = 0;
 		String classroom = "";
 		Classroom classroomObject = null;
 		int startHour = 0;
@@ -534,8 +535,22 @@ public class Administrator extends User {
 					continue;
 				}
 		        
+		        state++;
+			}
+			
+			if (state == 4) { // listening for unit
+				System.out.println("Enter \"-1\" to go back.");
+				System.out.print("Enter course unit: ");
+		        unit = InputHandler.promptNumber();
+		        System.out.println("");
+				
+		        if (unit == -1) {
+					state--;
+					continue;
+				}
+		        
 		        if (confirmation.equals("N")) {
-		        	Boolean success = addCourse(name, teacherObject, term);
+		        	Boolean success = addCourse(name, teacherObject, term, unit);
 		        	
 		        	if (!success) {
 		        		System.out.println("There was an error trying to add class, reverting to previous option.");
@@ -549,7 +564,7 @@ public class Administrator extends User {
 		        state++;
 			}
 			
-			if (state == 4) { // listening for classroom
+			if (state == 5) { // listening for classroom
 				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter classroom: ");
 		        classroom = InputHandler.promptLine();
@@ -569,7 +584,7 @@ public class Administrator extends User {
 		        state++;
 			}
 			
-			if (state == 5) { // listening for start Hour
+			if (state == 6) { // listening for start Hour
 				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter start hour (0-23): ");
 		        startHour = InputHandler.promptNumber();
@@ -589,7 +604,7 @@ public class Administrator extends User {
 		        state++;
 			}
 			
-			if (state == 6) { // listening for start Minute
+			if (state == 7) { // listening for start Minute
 				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter start minute (0-59): ");
 		        startMin = InputHandler.promptNumber();
@@ -608,7 +623,7 @@ public class Administrator extends User {
 		        state++;
 			}
 			
-			if (state == 7) { // listening for end Hour
+			if (state == 8) { // listening for end Hour
 				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter start hour (0-23): ");
 		        endHour = InputHandler.promptNumber();
@@ -627,7 +642,7 @@ public class Administrator extends User {
 		        state++;
 			}
 			
-			if (state == 8) { // listening for end Minute
+			if (state == 9) { // listening for end Minute
 				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter start minute (0-59): ");
 		        endMin = InputHandler.promptNumber();
@@ -646,7 +661,7 @@ public class Administrator extends User {
 		        state++;
 			}
 			
-			if (state == 9) { // listening for day of the week
+			if (state == 10) { // listening for day of the week
 				System.out.println("Enter \"-1\" to go back.");
 				System.out.print("Enter the number corresponding to the day of the week (1 = SUNDAY, ..., 7 = SATURDAY) [Enter 0 to confirm]: ");
 		        dayOfTheWeek = InputHandler.promptNumber();
@@ -757,11 +772,11 @@ public class Administrator extends User {
 		        System.out.println("Day of the week: " + dayOfWeeks.toString());
 			}
 			
-			if (state == 10) { // Forming needed arguments
+			if (state == 11) { // Forming needed arguments
 				LocalTime startTime = LocalTime.of(startHour, startMin);
 				LocalTime endTime = LocalTime.of(endHour, endMin);
 				
-				Boolean success = addCourse(name, teacherObject, term, classroomObject, startTime, endTime, dayOfWeeks);
+				Boolean success = addCourse(name, teacherObject, term, unit, classroomObject, startTime, endTime, dayOfWeeks);
 				
 				if (!success) {
 					System.out.println("Adding course unsuccessful, returning to previous option.");
@@ -776,13 +791,13 @@ public class Administrator extends User {
 		System.out.println("Exiting addAdministratorAccount method..."); 
 	}
 	
-	public static boolean addCourse(String name, Teacher teacher, String term, Classroom classroom, LocalTime startTime, LocalTime endTime, ArrayList<DayOfWeek> day) {
-		Course course = new Course(name, teacher, term, classroom, startTime, endTime, day);
+	public static boolean addCourse(String name, Teacher teacher, String term, int unit, Classroom classroom, LocalTime startTime, LocalTime endTime, ArrayList<DayOfWeek> day) {
+		Course course = new Course(name, teacher, term, unit, classroom, startTime, endTime, day);
 		return Database.containCourse(course);
 	}
 	
-	public static boolean addCourse(String name, Teacher teacher, String term) {
-		Course course = new Course(name, teacher, term);
+	public static boolean addCourse(String name, Teacher teacher, String term, int unit) {
+		Course course = new Course(name, teacher, term, unit);
 		return Database.containCourse(course);
 	}
 	

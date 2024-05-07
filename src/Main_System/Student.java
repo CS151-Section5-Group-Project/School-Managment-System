@@ -67,7 +67,7 @@ public class Student extends User {
 	    	  }
 	    	     
 	    	  case "2": {
-	    		 System.out.println(this.toString());
+	    		 System.out.println(toString());
 		    	 break;
 	    	  }
 		    	     
@@ -105,7 +105,7 @@ public class Student extends User {
 	    			 System.out.println("No courses to display.\n");
 	    			 break;
 	    		 } else {
-	    			 System.out.println("Courses: " + courseHistory.toString());
+	    			 System.out.println(displayCourses());
 		    	     break;
 	    		 }
 	    	  }
@@ -136,7 +136,7 @@ public class Student extends User {
 	    	}
 		}
 		
-		System.out.println("Logging out of " + getUserName() + "...");
+		System.out.println("Logged out of " + getUserName() + "...");
 	}
 	
 	/*
@@ -145,47 +145,39 @@ public class Student extends User {
 	 * 
 	 */
 	
-	public void viewAllAssignments() {
-		Course courseObject = null;
-		String courseName = " ";
-
-		int state = 0;
-		Database.scanner.nextLine();
+	public HashMap<Course, Double> getCourseHistory() {
+		return courseHistory;
+	}
+	
+	public String displayCourses() {
+		String result = "";
+	
+		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+			result += entry.getKey().toString() + "\n" + 
+					"GPA in this course: " + entry.getValue().toString() + "\n\n";
+		}
 		
+		return result;
+	}
+	
+	public void viewAllAssignments() {
 		if (courseHistory.isEmpty()) {
 			System.out.println("Not enrolled in any classes");
 			return;
 		} 
 		
-		while (true) {
-			if (state == 0) { // listening for course name
-				System.out.println("Enter \"q\" to exit.");
-				System.out.println("Enter course name: ");
-				courseName = InputHandler.promptLine();
-				System.out.println("");
-				
-				if (courseName.equals("q")) {
-					break;
-				}
-				
-				for (Entry<Course, Double> entry: courseHistory.entrySet()) {
-					if (courseName.equals(entry.getKey().getName())) {
-						if (entry.getKey().getAssignments().isEmpty()) {
-							System.out.println("No Assignments");
-							break;
-						} else {
-							entry.getKey().getAssignments();
-						}
-					} else {
-						System.out.println("Student not in course");
-					}
-				}
+		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
+			Course course = entry.getKey();
+			
+			for (Assignment assignment: course.getAssignments().get(this)) {
+				System.out.println(assignment.toString());
 			}
 		}
 	}
 	
 	public void viewAnAssignment() {
 		String assignmentName = "";
+		Assignment assignmentObject = null;
 		String courseName = " ";
 		Course courseObject = null;
 
@@ -209,13 +201,16 @@ public class Student extends User {
 				
 				for (Entry<Course, Double> entry: courseHistory.entrySet()) {
 					if (courseName.equals(entry.getKey().getName())) {
-						continue;
+						courseObject = entry.getKey();
+						break;
 					} else {
 						System.out.println("Not in course");
 					}
 				}
+				
 				state++;
 			}
+			
 			if (state == 1) { // listening for assignment name
 				System.out.println("Enter \"q\" to go back.");
 				System.out.print("Enter assignment name: ");
@@ -227,23 +222,20 @@ public class Student extends User {
 					continue;
 				}
 		        
-		        for (Entry<Course, Double> entry: courseHistory.entrySet()) {
-					if (courseName.equals(entry.getKey().getName())) {
-						if (entry.getKey().getAllAssignmentOfName(assignmentName).isEmpty()) {
-							System.out.println("No such assignments exist");
-						} else {
-							entry.getKey().getAllAssignmentOfName(assignmentName);
-							break;
-						}
-					}
+		        assignmentObject = courseObject.getAssignmentFromStudent(this, assignmentName);
+		        
+		        if (assignmentObject == null) {
+		        	continue;
 		        }
+		        
+		        System.out.println(assignmentObject.toString());
+		        break;
 			}
 		}
 	}
 	
 	public void addCourse() {
 		String courseName = "";
-		Course object = null;
 		Database.scanner.nextLine();
 		
 		while (true) {
@@ -372,6 +364,7 @@ public class Student extends User {
 		}
 		
 		courseHistory.put(course, 4.0);
+		course.getTeacher().getCourses().add(course);
 		return true;
 	}
 	
@@ -387,7 +380,7 @@ public class Student extends User {
 	public String toString() {
 		return super.toString() + 
 				"\nGPA: " + getGPA() + 
-				"\nAll classes taken: " + courseHistory.toString() +
+				"\nAll classes taken: " + displayCourses() +
 				"\nEnrolled in: " + enrollmentDate.toString() +
 				"\nClass: " + getClassOf();
 	}
