@@ -75,12 +75,15 @@ public final class Database {
 		course5.addStudent(student2);
 		course6.addStudent(student1);
 		
-		new Assignment(student1, course1, "Syllabus", "Turn this in before tomorrow's class", 100, 75);
+		new Assignment(student1, course1, "Syllabus", "Turn this in before tomorrow's class", 100, 100);
 		new Assignment(student1, course1, "Assignment 1", "Easy A assignment", 10, 10);
 		new Assignment(student2, course2, "Assignment 1", "Reading Assignment 1", 100, 80);
 		new Assignment(student3, course3, "Assignment 1", "Quiz 1", 10, 5);
 		new Assignment(student4, course4, "Assignment 1", "Course Requirements Check", 1, 1);
 		new Assignment(student4, course4, "Assignment 2", "Lesson 1-5 Quiz", 20, 11);
+		new Assignment(student1, course6, "Assignment 1", "Introductions", 100, 50);
+		new Assignment(student1, course6, "Assignment 2", "Quiz 1", 100, 100);
+		new Assignment(student1, course1, "Assignment 2", "Quiz 1", 10, 10);
 	}
 	
 	public static void displayClassrooms() {
