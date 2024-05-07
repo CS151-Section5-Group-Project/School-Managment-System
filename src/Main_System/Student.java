@@ -1,3 +1,4 @@
+
 package Main_System;
 
 import java.time.LocalDate;
@@ -203,9 +204,12 @@ public class Student extends User {
 					if (courseName.equals(entry.getKey().getName())) {
 						courseObject = entry.getKey();
 						break;
-					} else {
-						System.out.println("Not in course");
 					}
+				}
+				
+				if (courseObject == null) {
+					System.out.println("Not in course");
+					return;
 				}
 				
 				state++;
@@ -219,7 +223,8 @@ public class Student extends User {
 		        
 		        if (assignmentName.equals("q")) {
 		        	state--;
-					continue;
+				courseObject = null;
+				continue;
 				}
 		        
 		        assignmentObject = courseObject.getAssignmentFromStudent(this, assignmentName);
