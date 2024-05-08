@@ -336,6 +336,12 @@ public class Student extends User {
 				coursePercentage = (double) totalGradedPoints / totalPoints * 100;
 				courseHistory.replace(course, GradeSystem.percentageToGPA(coursePercentage));
 			}
+<<<<<<< HEAD
+=======
+			
+			coursePercentage = (double) totalGradedPoints / totalPoints * 100;
+			courseHistory.replace(course, GradeSystem.percentageToGPA(coursePercentage));
+>>>>>>> branch 'Leo_Workspace' of https://github.com/CS151-Section5-Group-Project/School-Managment-System.git
 		}
 		
 		for (Entry<Course, Double> entry: courseHistory.entrySet()) {
