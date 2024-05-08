@@ -285,14 +285,13 @@ public class Student extends User {
 	public void dropCourse() {
 		String courseName = "";
 		Database.scanner.nextLine();
-		boolean courseFound = false;
 		
 		if (courseHistory.isEmpty()) {
 			System.out.println("No courses found");
 			return;
 		}
 		
-		while (courseFound == false) {
+		while (true) {
 			System.out.println("Enter \"q\" to exit.");
 			System.out.print("Enter course name: ");
 			courseName = InputHandler.promptLine();
@@ -304,14 +303,15 @@ public class Student extends User {
 				
 			for (Entry<Course, Double> entry: courseHistory.entrySet()) {
 				if (courseName.equals(entry.getKey().getName())) {
-					courseFound = true;
 					dropCourse(entry.getKey());
 					System.out.println("Course Dropped");
+					break;
 				} else {
 					System.out.println("Student not in course");
 				}
 			}
 		}
+		
 		System.out.println("Exiting dropCourse method...");
 	}
 	
