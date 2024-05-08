@@ -312,6 +312,8 @@ public class Student extends User {
 			for (Entry<Course, Double> entry: courseHistory.entrySet()) {
 				if (courseName.equals(entry.getKey().getName())) {
 					courseFound = true;
+					// Removes student before removing it from course history
+					entry.getKey().dropStudent(this);
 					dropCourse(entry.getKey());
 					System.out.println("Course Dropped");
 					return;
