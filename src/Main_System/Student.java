@@ -265,6 +265,8 @@ public class Student extends User {
 							System.out.println("Course already enrolled");
 							return;
 						} else {
+							// Adds student to the course before adding to course history
+							i.addStudent(this);
 							addCourse(i);
 							classFound = true;
 							break;
@@ -315,6 +317,9 @@ public class Student extends User {
 					return;
 				} 
 			}
+			
+			
+			
 			
 			if (courseFound == false) {
 				System.out.println("Student not in course");
