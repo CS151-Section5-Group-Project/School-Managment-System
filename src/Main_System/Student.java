@@ -312,7 +312,7 @@ public class Student extends User {
 					courseFound = true;
 					dropCourse(entry.getKey());
 					System.out.println("Course Dropped");
-					break;
+					return;
 				} 
 			}
 			
