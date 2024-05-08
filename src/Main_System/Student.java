@@ -261,9 +261,14 @@ public class Student extends User {
 						classFull = true;
 						continue;
 					} else {
-						addCourse(i);
-						classFound = true;
-						break;
+						if (addCourse(i) == false) {
+							System.out.println("Course already enrolled");
+							return;
+						} else {
+							addCourse(i);
+							classFound = true;
+							break;
+						}
 					}
 				}
    			 }
@@ -285,6 +290,7 @@ public class Student extends User {
 	public void dropCourse() {
 		String courseName = "";
 		Database.scanner.nextLine();
+		boolean courseFound = false;
 		
 		if (courseHistory.isEmpty()) {
 			System.out.println("No courses found");
@@ -303,15 +309,18 @@ public class Student extends User {
 				
 			for (Entry<Course, Double> entry: courseHistory.entrySet()) {
 				if (courseName.equals(entry.getKey().getName())) {
+					courseFound = true;
 					dropCourse(entry.getKey());
 					System.out.println("Course Dropped");
 					break;
-				} else {
-					System.out.println("Student not in course");
-				}
+				} 
+			}
+			
+			if (courseFound == false) {
+				System.out.println("Student not in course");
+				return;
 			}
 		}
-		
 		System.out.println("Exiting dropCourse method...");
 	}
 	
@@ -385,7 +394,6 @@ public class Student extends User {
 	
 	public boolean addCourse(Course course) {
 		if (courseHistory.containsKey(course)) {
-			System.out.println("Course already enrolled");
 			return false;
 		}
 		
