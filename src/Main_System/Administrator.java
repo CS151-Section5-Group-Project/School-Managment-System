@@ -570,7 +570,7 @@ public class Administrator extends User {
 		        classroom = InputHandler.promptLine();
 		        System.out.println("");
 				
-		        if (term.equals("q")) {
+		        if (classroom.equals("q")) {
 					state--;
 					continue;
 				}
@@ -625,7 +625,7 @@ public class Administrator extends User {
 			
 			if (state == 8) { // listening for end Hour
 				System.out.println("Enter \"-1\" to go back.");
-				System.out.print("Enter start hour (0-23): ");
+				System.out.print("Enter end hour (0-23): ");
 		        endHour = InputHandler.promptNumber();
 		        System.out.println("");
 				
@@ -644,7 +644,7 @@ public class Administrator extends User {
 			
 			if (state == 9) { // listening for end Minute
 				System.out.println("Enter \"-1\" to go back.");
-				System.out.print("Enter start minute (0-59): ");
+				System.out.print("Enter end minute (0-59): ");
 		        endMin = InputHandler.promptNumber();
 		        System.out.println("");
 				
