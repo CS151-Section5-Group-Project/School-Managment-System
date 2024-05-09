@@ -580,6 +580,8 @@ public class Teacher extends User{
 				}
 				
 				dropStudent(courseObject, studentObject);
+				// Removes course from student's course history
+				studentObject.dropCourse(courseObject);
 				System.out.println(studentObject + " was dropped from course: " + courseObject.getName());
 				break;
 			}
