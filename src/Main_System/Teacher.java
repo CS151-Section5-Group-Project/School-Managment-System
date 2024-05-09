@@ -390,7 +390,7 @@ public class Teacher extends User{
 					break;
 				}
 				
-				System.out.println("Showing all assignments: \n" + courseObject.getAssignments().toString());
+				System.out.println("Showing all assignments: \n" + courseObject.getAssignments().values().toString());
 				break;
 			}
 		}
