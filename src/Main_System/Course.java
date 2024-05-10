@@ -185,14 +185,6 @@ public class Course {
 		return average/count;
 	}
 	
-	public void updateStudentGrade(Student student) {
-		
-	}
-	
-	public static void updateStudentsGrade() {
-		
-	}
-	
 	// Returns all assignment under the passed name
 	public ArrayList<Assignment> getAllAssignmentOfName(String assignmentName) {
 		ArrayList<Assignment> assignmentListResult = new ArrayList<Assignment>();
