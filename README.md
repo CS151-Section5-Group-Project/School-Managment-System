@@ -18,3 +18,6 @@ Clone the repository and run the following commands:
 javac Main.java
 java Main.java
 ```
+
+## Project Report
+https://docs.google.com/document/d/1gXTREqR47KwIOd60lmEGyBdrWo3KSM5yJq7YhwHSf0g/edit?usp=sharing
